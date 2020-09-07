@@ -1,0 +1,43 @@
+# name of your github action
+name: Build
+# this will help you specify where to run 
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build_on_win:
+    name: Create Executable
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@master
+      with:
+        ref: feature/github-actions        
+    - uses: actions/setup-node@master
+      with:
+        node-version: 10.16
+    - name: Install Node dependencies
+      run: |
+        npm install
+        ls ./
+    
+    - name: Build Executable
+      run: |
+        npm buildWin
+         
+    - name: see directory
+      run: ls
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: build_contents
+        path: dist
+    - name: Create release
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        prerelease: false
+        title: "Automatic Build"
+        files: |
+          ./dist/*.exe
