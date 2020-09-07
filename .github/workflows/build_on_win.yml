@@ -22,7 +22,7 @@ jobs:
     
     - name: Build Executable
       run: |
-        npm run buildWin
+        npm run dist
          
     - name: see directory
       run: ls
