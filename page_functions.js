@@ -957,7 +957,6 @@ function add_sample_table_row() {
 
 }
 
-
 // Util functions related to handling the custom title bar of the page 
 
 const win = remote.getCurrentWindow(); /* Note this is different to the
