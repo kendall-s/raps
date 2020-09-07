@@ -1,0 +1,26 @@
+{
+  "name": "raps",
+  "version": "1.0.20200514",
+  "description": "Run Analysis & Processing Sheet App",
+  "main": "main.js",
+  "dependencies": {
+    "bootstrap": "^4.5.2",
+    "csv-parser": "^2.3.2",
+    "csv-writer": "^1.6.0",
+    "electron": "^8.2.0",
+    "electron-builder": "^22.5.1",
+    "electron-localshortcut": "^3.2.1",
+    "electron-reload": "^1.5.0"
+  },
+  "devDependencies": {
+    "electron-packager": "^14.2.1",
+    "electron-winstaller": "^4.0.0"
+  },
+  "scripts": {
+    "start": "electron .",
+    "buildWin": "electron-packager AppDir AppName --platform=win32 --arch=ia32 --electronVersion=1.4.13 --app-version=1.0.0 --build-version=2.0.0 --icon=./assets/favicon.ico --prune=false --overwrite=true && electron ./package.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kendall",
+  "license": "MIT"
+}

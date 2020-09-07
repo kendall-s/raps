@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>RAPS</title>
+
+    <link rel="stylesheet" type="text/css" href="styling.css">
+
+</head>
+
+<body style="overflow-y: hidden;">
+    <div style="position: fixed; top: 0px; left:0px; height: 2px; width: 100%; background-color:rgb(37, 37, 37)"></div>
+
+    <!-- Title bar HTML - custom title bar used -->
+    <header id="title-bar">
+        <div id="title">📓 Run Analysis & Processing Sheet</div>
+        <div id="window-controls">
+            <div class="button pointerCursor" id="min-button">
+                <img class="icon"
+                    srcset="img/title-bar-icons/min-w-10.png 1x, img/title-bar-icons/min-w-12.png 1.25x, img/title-bar-icons/min-w-15.png 1.5x, img/title-bar-icons/min-w-15.png 1.75x, img/title-bar-icons/min-w-20.png 2x, img/title-bar-icons/min-w-20.png 2.25x, icons/min-w-24.png 2.5x, icons/min-w-30.png 3x, icons/min-w-30.png 3.5x"
+                    draggable="false" />
+            </div>
+
+            <div class="button pointerCursor" id="max-button">
+                <img class="icon"
+                    srcset="img/title-bar-icons/max-w-10.png 1x, img/title-bar-icons/max-w-12.png 1.25x, img/title-bar-icons/max-w-15.png 1.5x, img/title-bar-icons/max-w-15.png 1.75x, img/title-bar-icons/max-w-20.png 2x, img/title-bar-icons/max-w-20.png 2.25x, icons/max-w-24.png 2.5x, icons/max-w-30.png 3x, icons/max-w-30.png 3.5x"
+                    draggable="false" />
+            </div>
+
+            <div class="button pointerCursor" id="restore-button">
+                <img class="icon"
+                    srcset="img/title-bar-icons/restore-w-10.png 1x, img/title-bar-icons/restore-w-12.png 1.25x, img/title-bar-icons/restore-w-15.png 1.5x, img/title-bar-icons/restore-w-15.png 1.75x, img/title-bar-icons/restore-w-20.png 2x, img/title-bar-icons/restore-w-20.png 2.25x, icons/restore-w-24.png 2.5x, icons/restore-w-30.png 3x, icons/restore-w-30.png 3.5x"
+                    draggable="false" />
+            </div>
+
+            <div class="button pointerCursor" id="close-button">
+                <img class="icon"
+                    srcset="img/title-bar-icons/close-w-10.png 1x, img/title-bar-icons/close-w-12.png 1.25x, img/title-bar-icons/close-w-15.png 1.5x, img/title-bar-icons/close-w-15.png 1.75x, img/title-bar-icons/close-w-20.png 2x, img/title-bar-icons/close-w-20.png 2.25x, icons/close-w-24.png 2.5x, icons/close-w-30.png 3x, icons/close-w-30.png 3.5x"
+                    draggable="false" />
+            </div>
+        </div>
+    </header>
+    <!-- Main document -->
+    <div class="main">
+        <!-- Top Nav -->
+        <div class="topnav">
+            <p style="text-align: center;"> <b>File Open: </b></p>
+            <p style="text-align: center; margin-left: 10px;" id="file_currently_open"><i>New</i></p>
+            <div style="padding-right: 50px; margin-left: auto; display: flex; flex-direction: row;">
+                <p>Version:</p>
+                <select class="topnav-select pointerCursor" id="version-select">
+                    <option>0</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Master Sidenav, has buttons to expand the children sidenavs -->
+        <div class="sidenav-control">
+            <button class="sidebar_expander toggle-down" onclick="navOpening(this.id)">
+                <svg id="Capa_1" enable-background="new 0 0 515.555 515.555" fill="#ced4d6" width="22px"
+                    viewBox="0 0 515.555 515.555" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="m496.679 212.208c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138 65.971-25.167 91.138 0" />
+                    <path
+                        d="m303.347 212.208c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138 65.971-25.167 91.138 0" />
+                    <path
+                        d="m110.014 212.208c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138 65.971-25.167 91.138 0" />
+                </svg>
+            </button>
+            <div class="sidenav-control-button-div" id="file_menu_div">
+                <button class="sidebar_expander toggle-down pointerCursor" onclick="navOpening(this.id)"
+                    id="file_menu_button" style="margin-bottom:2px">
+                    <img src="img/003-file.svg" width="25px" id="file_menu_button_image">
+                </button>
+                <p style="font-size: 11px; margin:0px; padding:0px; color:rgb(219, 219, 219);">File</p>
+            </div>
+
+            <div class="sidenav-control-button-div" id="save_menu_div">
+                <button class="sidebar_expander toggle-down pointerCursor" onclick="navOpening(this.id)"
+                    id="save_menu_button" style="margin-bottom:2px">
+                    <img src="img/005-floppy-disk-1.svg" width="25px" id="save_menu_button_image">
+                </button>
+                <p style="font-size: 11px; margin:0px; padding:0px; color:rgb(219, 219, 219);">Save</p>
+            </div>
+
+            <div class="sidenav-control-button-div" id="search_menu_div">
+                <button class="sidebar_expander toggle-down pointerCursor" onclick="navOpening(this.id)"
+                    id="search_menu_button" style="margin-bottom:2px">
+                    <img src="img/search.svg" width="25px" id="search_menu_button_image">
+                </button>
+                <p style="font-size: 11px; margin:0px; padding:0px; color:rgb(219, 219, 219);">Find</p>
+            </div>
+            <div style="margin-top: auto; margin-bottom: 40px; text-align: center;">
+                <p style="font-size: 11px; margin:0px; padding:0px; color:rgb(61, 61, 61)">Made by Ken</p>
+            </div>
+        </div>
+
+        <!-- File control sidenav, allows the selection of files -->
+        <div class="sidenav" id="file_sidenav">
+            <p style="text-align: center; font-weight: bold; margin-top: 20px; margin-bottom: 20px;">Select Files Folder
+            </p>
+            <div style="display: flex; justify-content: center; padding-bottom: 10px;">
+                <button class="sidenav-button pointerCursor" style="display:flex; justify-content: center;"
+                    onclick="open_dir()"> Browse</button>
+            </div>
+            <div style="display:flex; justify-content: center;">
+                <select id="csv_file_list" class="sidenav-select" size="27"
+                    style="width: 150px; justify-content: center; display: flex; padding-top: 5px;">
+                    <option>
+                        Browse
+                    </option>
+                    <option>
+                        To
+                    </option>
+                    <option>
+                        Folder
+                    </option>
+                    <option>
+                        First
+                    </option>
+                </select>
+            </div>
+            <div style="display: flex; justify-content: center; padding: 10px 0px 10px 0px; margin-bottom: 20px;">
+                <button class="sidenav-button pointerCursor" style="display:flex; justify-content: center;"
+                    onclick="load_file()"> Load File</button>
+            </div>
+            <div style="display: flex; justify-content: center; padding: 5px 0px 5px 0px; margin-bottom: 60px;">
+                <button class="sidenav-button pointerCursor"
+                    style="display: flex; justify-content: center; padding: 2px 10px 2px 10px;">Collate Final</button>
+            </div>
+            <p hidden id="selected_directory"></p>
+
+        </div>
+        <!-- Save functions sidenav, allows saving of the file -->
+        <div class="sidenav" id="save_sidenav">
+            <p style="text-align: center; font-weight: bold; margin-top: 20px; margin-bottom: 20px;">Save File</p>
+            <div
+                style="border: 1px solid rgb(202, 202, 202); border-radius: 0.2em; margin-left: 10px; margin-right:10px; margin-bottom: 20px; padding-bottom: 10px;">
+                <p style="margin-bottom:5px; margin-top: 5px;"> Save as new file: </p>
+                <div style="display: flex; justify-content: center;">
+                    <button class="save-sidenav-button pointerCursor" id="save-button" onclick="save_data()">
+                        Save File As
+                    </button>
+                </div>
+            </div>
+
+            <div
+                style="border: 1px solid rgb(202, 202, 202); border-radius: 0.2em; margin-left: 10px; margin-right:10px; margin-bottom: 20px; padding-bottom: 10px;">
+                <p style="margin-bottom:5px; margin-top: 5px; white-space: pre-wrap; text-align:center"> Save data as new version: </p>
+                <div style="display: flex; justify-content: center;">
+                    <button class="save-sidenav-button pointerCursor" id="save-button" onclick="save_to_both_paths()">
+                        New Version
+                    </button>
+                </div>
+            </div>
+
+            <div style="padding-bottom: 30px;"></div>
+        </div>
+
+        <!-- Search sidenav, allows navigation through the document -->
+        <div class="sidenav" id="search_sidenav">
+            <p style="text-align: center; font-weight: bold; margin-top: 20px; margin-bottom: 20px;">Search</p>
+            <div class="centered-div">
+                <input type=text style="width: 140px;">
+            </div>
+            <p style="text-align: center; font-weight: bold; margin-top: 20px; margin-bottom: 5px;">Contents</p>
+            <div style="display: flex; justify-content: center;">
+                <ul class="nav-list">
+                    <li>
+                        <a class="nav-item" href="#pre-analysis">Pre-Analysis</a>
+                    </li>
+                    <li>
+                        <a class="nav-item" href="#daily_checklist">Daily Checklist</a>
+                    </li>
+                    <li>
+                        <a class="nav-item" href="#new_reagents">New Reagents</a>
+                    </li>
+                    <li>
+                        <a class="nav-item" href="#quality_controls">Quality Control</a>
+                    </li>
+                    <li>
+                        <a class="nav-item" href="#analysis">Analysis</a>
+                    </li>
+                    <li>
+                        <a class="nav-item" href="#processing">Processing</a>
+                    </li>
+                    <li>
+                        <a class="nav-item" href="#review">Review</a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Main Form Document contains all the fillable fields that get saved -->
+        <div class="main_doc" id="main_doc" style="overflow-y: scroll; margin-bottom: 100px;">
+            <div class="header-div">
+                <div
+                    style="padding-top: 40px; padding-bottom: 20px; display: flex; justify-content: center; text-align: center;">
+                    <h1>
+                        📑 Run Analysis and Processing Sheet
+                        <a name="pre-analysis"></a>
+                    </h1>
+                </div>
+                <div class="new-button-div">
+                    <button class="new-button pointerCursor" title="New RAPS" onclick="clear_all()"> 📖 </button>
+                </div>
+            </div>
+
+            <!-- Pre-Analysis Fields -->
+            <div class="centered-div">
+                <div>
+                    <h3>💭 Pre-Analysis</h3>
+                </div>
+            </div>
+
+            <div class="centered-div">
+                <p class="bolded">
+                    Voyage:
+                    <input class="form" type=text id='voyage_name'>
+                </p>
+            </div>
+
+            <div class="flex_row">
+                <div class="flex_cell">
+                    <p class="bolded">
+                        Sheet #:
+                        <input class="form" type="number" id="sheet_number">
+                    </p>
+                </div>
+                <div class="flex_cell">
+                    <p class="bolded">
+                        Date:
+                        <input class="form" type="date" id="date">
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex_row">
+                <div class="flex_cell">
+                    <p class="bolded">
+                        Analyst:
+                        <input class="form" type="text" id="analyst">
+                    </p>
+                </div>
+                <div class="flex_cell">
+                    <p class="bolded">
+                        File:
+                        <input class="form" type="text" id="file_name">
+                    </p>
+                </div>
+            </div>
+            <div class="centered-div" style="padding-bottom: 0;">
+                <div class="flex_row" style="max-width: 750px;">
+                    <table class="table samples_table" id="samples_table">
+                        <thead>
+                            <tr>
+                                <th>Sample</th>
+                                <th>Condition</th>
+                                <th>Comment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input class="form" type="text" id="samples_1">
+                                </td>
+                                <td>
+                                    <select class="form" id="samples_condition_1">
+                                        <option value="ambient">Ambient</option>
+                                        <option value="fridge">Refridgerated</option>
+                                        <option value="frozen">Frozen</option>
+                                    </select>
+                                <td>
+                                    <input class="form" type="text" id="samples_comment_1">
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="centered-div" style="padding-top: 0;">
+                <button style="background-color: transparent; width: 40px; padding: 0.5rem;" id="add_table_row" onclick="add_sample_table_row()">
+                    ➕
+                </button>
+            </div>
+
+            <div class="centered-div" style="margin-top: 30px;">
+                <div style="display: grid; grid-template-columns: 1fr;">
+                    <div>
+                        <p class="bolded">General Analysis Comments:</p>
+                    </div>
+                    <div>
+                        <textarea class="form" rows="9" cols="100" id="pre_analysis_comments"></textarea>
+                    </div>
+                </div>
+            </div>
+            <a name="daily_checklist"></a>
+
+            <hr>
+
+            <!-- Daily Checklist fields -->
+            <div class="centered-div">
+                <h3>
+                    📅 Daily Checklist</h3>
+            </div>
+            <div class="centered-div" style="padding-top: 5px; padding-bottom: 40px">
+                <div style="display: grid; grid-template-columns: 1fr; align-items: center;">
+                    <div style="display: grid; grid-template-columns: 1fr 0.5fr;">
+                        <div style="display: grid; grid-template-columns: 0.1fr 1fr 0.1fr 1fr; align-items: center;">
+                            <input class="form" type="checkbox" id='air_valve'>
+                            <label for='air_valve'> Air Tubing Moved </label>
+                            <input class="form" type="checkbox" id='mq_cont'>
+                            <label for='mq_cont'> MQ Container Filled </label>
+                            <input class="form" type="checkbox" id='reagents_ran'>
+                            <label for='reagents_ran'> Reagents Ran for 30 mins </label>
+                            <input class="form" type="checkbox" id='reagents_sufficient'>
+                            <label for='reagents_sufficient'> Reagents Volume Sufficient </label>
+                            <input class="form" type="checkbox" id='correct_rack_file'>
+                            <label for='reagents_sufficient'>Correct Rack File </label>
+                        </div>
+                        <div style="padding-left: 15px;">
+                            <p style="padding-left: 0px; margin-top: 0px; margin-bottom: 5px;">Comments:</p>
+                            <textarea class="form" rows="3" cols="30" id="daily_check_comments"></textarea>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: center; margin-top: 10px;">
+                        <input class="form" type="checkbox" id='all_daily_checked'>
+                        <label for='all_daily_checked'> All Checked </label>
+                    </div>
+
+                </div>
+            </div>
+
+            <a name="new_reagents"></a>
+            <hr>
+
+            <!-- New Reagents Checklist -->
+            <div class="centered-div">
+                <h3>
+                    🧪 New Reagents Checklist</h3>
+            </div>
+            <div class="centered-div" style="padding-top: 5px; padding-bottom: 40px">
+                <div style="display: grid; grid-template-columns: 1.2fr 0.3fr;">
+                    <div style="display: grid; grid-template-columns: 0.2fr 1fr 0.2fr 1fr; max-width: 800px;">
+                        <input class="form" type="checkbox" id='silicate_colour'>
+                        <label for='silicate_colour'> Silicate Colour </label>
+                        <input class="form" type="checkbox" id='silicate_acid'>
+                        <label for='silicate_acid'> Silicate Acid </label>
+                        <input class="form" type="checkbox" id='stannous'>
+                        <label for='stannous'> Stannous Chloride </label>
+                        <input class="form" type="checkbox" id='opa'>
+                        <label for='opa'> OPA </label>
+                        <input class="form" type="checkbox" id='nox_buffer'>
+                        <label for='nox_buffer'> NOx Buffer </label>
+                        <input class="form" type="checkbox" id='nox_colour'>
+                        <label for='nox_colour'> NOx/NO2 Colour </label>
+                        <input class="form" type="checkbox" id='phosphate_colour'>
+                        <label for='phosphate_colour'> Phosphate Colour </label>
+                        <input class="form" type="checkbox" id='phosphate_acid'>
+                        <label for='phosphate_acid'> Phosphate Acid </label>
+                    </div>
+                    <div style="padding-left: 15px;">
+                        <p style="padding-left: 0px; margin-top: 0px; margin-bottom: 5px;">Comments:</p>
+                        <textarea class="form" rows="4" cols="40" id="reagent_comments"></textarea>
+                    </div>
+                </div>
+            </div>
+            <a name="quality_controls"></a>
+            <hr>
+
+            <!-- Quality Control Fields -->
+            <div class="centered-div">
+                <h3>📉 Quality Controls</h3>
+            </div>
+            <div class="centered-div" style="padding-top: 5px; padding-bottom: 40px">
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; grid-gap: 30px;">
+                    <div>
+                        <p style="text-align: center; margin-bottom: 7px; margin-top:0px;"> RMNS Used:</p>
+                        <div
+                            style="display: grid; grid-template-columns: 0.2fr 1fr; max-width: 220px; align-items: center; gap: 5px 5px;">
+                            <input class="form" type="checkbox" id='rmns_1'>
+                            <input class="form" type="text" for="rmns_1" id="rmns_1_used" style="max-width: 140px;">
+                            <input class="form" type="checkbox" id='rmns_2'>
+                            <input class="form" type="text" for="rmns_2" id="rmns_2_used" style="max-width: 140px;">
+                            <input class="form" type="checkbox" id='rmns_3'>
+                            <input class="form" type="text" for="rmns_3" id="rmns_3_used" style="max-width: 140px;">
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; flex-direction: column; justify-content: center;">
+                        <p style="text-align: center; margin-bottom: 7px; margin-top: 0px;">Internal Standard: </p>
+                        <input class="form" type="text" id="internal_standard" style="margin-bottom:5px;">
+                        <p style="text-align: center; margin-bottom: 7px; margin-top:0px;">LNSW Batch: </p>
+                        <input class="form" type="text" id="lnsw_batch">
+
+                    </div>
+                    <div style="display: flex; align-items: center; flex-direction: column; justify-content: center;">
+                        <p style="margin-top:0px;">Standards Date: </p>
+                        <input class="form" type="date" id="standards_date">
+                        <p style="padding: 0px;">Standards No. :
+                            <select class="form" style="width: 50px" id="standards_numbers">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                            </select>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <a name="analysis"></a>
+            <hr>
+
+            <!-- Analysis Fields -->
+            <div class="centered-div">
+                <h3>👨‍🔬 Analysis</h3>
+            </div>
+            <div class="centered-div">
+                <p style="margin:0px; font-weight: 550;">Channel Settings</p>
+            </div>
+            <div class="centered-div" style="margin-bottom: 20px;">
+                <div
+                    style="display:grid; grid-template-columns: 0.5fr 0.5fr 0.5fr 0.5fr; gap: 5px 0px; border-radius: 0.3em; padding:10px;">
+                    <div style="grid-column: 1; background-color: rgb(61, 61, 61);"></div>
+                    <div class="centered-div"
+                        style="grid-column: 2; margin-top: 0px; background-color: rgb(61, 61, 61); color:white; padding: 0;">
+                        <p style="margin-bottom: 3px; margin-top:3px; font-weight: 500; padding: 0;">Reagent Baseline
+                        </p>
+                    </div>
+                    <div class="centered-div"
+                        style="grid-column: 3; margin-top: 0px; background-color: rgb(61, 61, 61); color:white; padding: 0;">
+                        <p style="margin-bottom: 1px; margin-top: 1px; font-weight: 500; padding: 0;">Gain</p>
+                    </div>
+                    <div class="centered-div"
+                        style="grid-column: 4; margin-top: 0px; background-color: rgb(61, 61, 61); color:white; padding: 0;">
+                        <p style="margin-bottom: 1px; margin-top:1px; font-weight: 500; padding: 0;">Base Offset</p>
+                    </div>
+
+                    <div style="padding: 7px 7px 7px 7px;">
+                        <select class="form" id="channel_1_nutrient">
+                            <option>Silicate</option>
+                            <option>Phosphate</option>
+                            <option>Nitrite</option>
+                            <option>Nitrate</option>
+                            <option>Ammonia</option>
+                        </select>
+                    </div>
+                    <div style="padding: 7px 7px 7px 7px;">
+                        <input class="form" type="text" placeholder="Reagent Baseline" id="channel_1_reagent_baseline">
+                    </div>
+                    <div style="padding: 7px 7px 7px 7px;">
+                        <input class="form" type="text" placeholder="Gain" id="channel_1_gain">
+                    </div>
+                    <div style="padding: 7px 7px 7px 7px;">
+                        <input class="form" type="text" placeholder="Base Offset" id="channel_1_base_offset">
+                    </div>
+
+                    <div style="padding: 7px 7px 7px 7px; background-color: rgb(204, 204, 204);;">
+                        <select class="form" id="channel_2_nutrient">
+                            <option>Silicate</option>
+                            <option selected>Phosphate</option>
+                            <option>Nitrite</option>
+                            <option>Nitrate</option>
+                            <option>Ammonia</option>
+                        </select>
+                    </div>
+
+                    <div style="padding: 7px 7px 7px 7px; background-color: rgb(204, 204, 204);;">
+                        <input class="form" type="text" id="channel_2_reagent_baseline">
+                    </div>
+                    <div style="padding: 7px 7px 7px 7px; background-color: rgb(204, 204, 204);;">
+                        <input class="form" type="text" id="channel_2_gain">
+                    </div>
+                    <div style="padding: 7px 7px 7px 7px; background-color: rgb(204, 204, 204);;">
+                        <input class="form" type="text" id="channel_2_base_offset">
+                    </div>
+
+                    <div style="padding: 7px 7px 7px 7px;">
+                        <select class="form" id="channel_3_nutrient">
+                            <option>Silicate</option>
+                            <option>Phosphate</option>
+                            <option selected>Nitrite</option>
+                            <option>Nitrate</option>
+                            <option>Ammonia</option>
+                        </select>
+                    </div>
+                    <div style="padding: 7px 7px 7px 7px;">
+                        <input class="form" type="text" id="channel_3_reagent_baseline">
+                    </div>
+                    <div style="padding: 7px 7px 7px 7px;">
+                        <input class="form" type="text" id="channel_3_gain">
+                    </div>
+                    <div style="padding: 7px 7px 7px 7px;">
+                        <input class="form" type="text" id="channel_3_base_offset">
+                    </div>
+
+                    <div style="padding: 7px 7px 7px 7px; background-color: rgb(204, 204, 204);;">
+                        <select class="form" id="channel_4_nutrient">
+                            <option>Silicate</option>
+                            <option>Phosphate</option>
+                            <option>Nitrite</option>
+                            <option selected>Nitrate</option>
+                            <option>Ammonia</option>
+                        </select>
+                    </div>
+                    <div style="padding: 7px 7px 7px 7px; background-color: rgb(204, 204, 204);">
+                        <input class="form" type="text" id="channel_4_reagent_baseline">
+                    </div>
+                    <div style="padding: 7px 7px 7px 7px; background-color: rgb(204, 204, 204);;">
+                        <input class="form" type="text" id="channel_4_gain">
+                    </div>
+                    <div style="padding: 7px 7px 7px 7px; background-color: rgb(204, 204, 204);;">
+                        <input class="form" type="text" id="channel_4_base_offset">
+                    </div>
+
+                    <div style="padding: 7px 7px 7px 7px;">
+                        <select class="form" id="channel_5_nutrient">
+                            <option>Silicate</option>
+                            <option>Phosphate</option>
+                            <option>Nitrite</option>
+                            <option>Nitrate</option>
+                            <option selected>Ammonia</option>
+                        </select>
+                    </div>
+                    <div style="padding: 7px 7px 7px 7px;">
+                        <input class="form" type="text" id="channel_5_reagent_baseline">
+                    </div>
+                    <div style="padding: 7px 7px 7px 7px;">
+                        <input class="form" type="text" id="channel_5_gain">
+                    </div>
+                    <div style="padding: 7px 7px 7px 7px;">
+                        <input class="form" type="text" id="channel_5_base_offset">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="centered-div" style="margin-bottom: 20px;">
+                <div style="display: grid; grid-template-columns: 1fr; gap: 5px 1px;">
+                    <div>
+                        <p style="padding:0px; margin:0px; text-align: center; font-weight: 550;">Cadmium Column</p>
+                    </div>
+                    <div style="text-align: left; margin-bottom: 8px;">
+                        <p style="padding:0px; margin:0px;">Prepared:</p>
+                        <input class="form" type="date" id='cadmium_column_prep_date'>
+                    </div>
+                    <div>
+                        <p style="padding:0px; margin:0px; margin-bottom: 8px;">Activated:</p>
+                        <input class="form" type="date" id="cadmium_column_activate_date">
+                    </div>
+                </div>
+            </div>
+
+            <div class="centered-div">
+                <div
+                    style="display:grid; grid-template-columns: 1fr 0.5fr 1fr 0.5fr; gap: 5px 0px; border-radius: 0.3em; padding:10px;">
+                    <div style="grid-column: 1 / span 2;">
+                        <p style="text-align: center; font-weight: 550;">Run Start</p>
+                    </div>
+                    <div style="grid-column: 3 / span 2;">
+                        <p style="text-align: center; font-weight: 550;">Run End</p>
+                    </div>
+                    <div style="display:flex; grid-column: 1 / span 2; justify-content: center;">
+                        <input class="form" type="checkbox" id="tray_protocol_checked">
+                        <label for="tray_protocol_checked">Tray Protocol Checked</label>
+                    </div>
+                    <div>
+
+                    </div>
+                    <div>
+
+                    </div>
+
+                    <div>
+                        <p>Time:</p>
+                    </div>
+                    <div>
+                        <input class="form" type="text" id="start_time">
+                    </div>
+                    <div>
+                        <p>Time:</p>
+                    </div>
+                    <div>
+                        <input class="form" type="text" id="finish_time">
+                    </div>
+                    <div>
+                        <p>Pump Tube Hours:</p>
+                    </div>
+                    <div>
+                        <input class="form" type="text" id="start_pump_tube_hours">
+                    </div>
+                    <div>
+                        <p>Pump Tube Hours:</p>
+                    </div>
+                    <div>
+                        <input class="form" type="text" id="finish_pump_tube_hours">
+                    </div>
+                    <div>
+                        <p>Lab Temp: </p>
+                    </div>
+                    <div>
+                        <input class="form" type="text" id="start_lab_temperature">
+                    </div>
+                    <div>
+                        <p>Lab Temp:</p>
+                    </div>
+                    <div>
+                        <input class="form" type="text" id="finish_lab_temperature">
+                    </div>
+                </div>
+            </div>
+            <div class="centered-div">
+                <p>Rack File Used:</p>
+                <select class="form" id="rack_file_used">
+                    <option>24</option>
+                    <option>48</option>
+                    <option>60</option>
+                </select>
+            </div>
+            <a name="processing"></a>
+
+            <hr>
+
+            <!-- Data Processing -->
+            <div class="centered-div">
+                <h3>💻 Data Processing</h3>
+            </div>
+            <div class="centered-div">
+                <p style="margin:0px; font-weight: 550; margin-bottom: 20px;">📊 AACE</p>
+            </div>
+            <div class="centered-div" style="margin-bottom: 30px;">
+                <div style="display: grid; grid-template-columns: 1fr; gap: 5px 5px; justify-content: center;">
+                    <div style="display: flex; justify-content: center; grid-column: 1 /span 2;">
+                        <input class="form" type="checkbox" id="trace_checked"
+                            title="No step ups in either the baseline or drift">
+                        <label for="trace_checked" title="No step ups in either the baseline or drift">Trace
+                            Checked</label>
+                    </div>
+                    <div style="text-align: left;">
+                        <p style="padding-right: 1px; padding-left:3px;"> Any Concerns:
+                        </p>
+                        <textarea class="form" id="trace_concerns" rows=4 cols=50
+                            title="List any abnormalities in the analsyis trace"></textarea>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="centered-div">
+                <p style="margin:0px; font-weight: 550; margin-bottom: 20px;">🔥 HyPro</p>
+            </div>
+            <div class="centered-div">
+                <div class="dp_results" style="display: grid; grid-template-columns: 1.5fr 1.5fr; gap: 50px 40px">
+
+                    <!-- NOX --->
+
+                    <div
+                        style="display: grid; grid-template-columns: 0.3fr 0.3fr 0.3fr; gap: 15px 5px; justify-content: center; padding: 20px 5px 25px 5px; border: 1px solid rgb(175, 175, 175); border-radius: 0.5em;">
+                        <div style="display:flex; grid-column: 1 / span 3; justify-content: center;">
+                            <p style="font-weight: 500;">NOx</p>
+                        </div>
+                        <div style=" display:flex; grid-column: 1 / span 1; justify-content: center;">
+                            <p>Calibrants:</p>
+                        </div>
+                        <div style=" display:flex; grid-column: 2 / span 1; justify-content: left;">
+                            <select class="form" id="nox_calibrants">
+                                <option>Good</option>
+                                <option>Suspect</option>
+                                <option>Bad</option>
+                            </select>
+                        </div>
+                        <div style="display:flex; justify-content: center; grid-column: 1 / span 3;">
+                            <textarea class="form" rows=4 cols=45 placeholder="Calibrant comments"
+                                id="nox_calibrants_comments"></textarea>
+                        </div>
+
+                        <div>
+                        </div>
+                        <div>
+                            <p>Specification</p>
+                        </div>
+                        <div>
+                            <p>Result</p>
+                        </div>
+                        <div>
+                            <p style="padding:0px; margin:0px; margin-bottom: 8px;">Cd Eff %</p>
+                        </div>
+                        <div>
+                            <p>>98%</p>
+                        </div>
+                        <div>
+                            <input class="form" type="text" style="width:90px;" id="cadmium_column_efficiency">
+                        </div>
+                        <div>
+                            <p>R²</p>
+                        </div>
+                        <div>
+                            <p>>0.9990</p>
+                        </div>
+                        <div>
+                            <input class="form" type="text" style="width:90px;" id="nox_r_squared">
+                        </div>
+
+                        <div>
+                            <p title="Largest diff between points">Baseline</p>
+                        </div>
+                        <div>
+                            <p>
+                                <1.5%</p> </div> <div>
+                                    <select class="form" id="nox_baseline">
+                                        <option>Pass</option>
+                                        <option>Fail</option>
+                                    </select>
+                        </div>
+
+                        <div>
+                            <p>Drift </p>
+                        </div>
+                        <div>
+                            <p>
+                                <1.5%</p> </div> <div>
+                                    <select class="form" id="nox_drift">
+                                        <option>Pass</option>
+                                        <option>Fail</option>
+                                    </select>
+                        </div>
+
+                        <div>
+                            <p>MDL</p>
+                        </div>
+                        <div>
+                            <p>0.02</p>
+                        </div>
+                        <div>
+                            <select class="form" id="nox_mdl">
+                                <option>Pass</option>
+                                <option>Fail</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <p>Duplicates</p>
+                        </div>
+                        <div>
+                            <p>
+                                <0.06</p> </div> <div>
+                                    <select class="form" id="nox_duplicates">
+                                        <option>Pass</option>
+                                        <option>Fail</option>
+                                    </select>
+                        </div>
+
+                        <div>
+                            <p>RMNS</p>
+                        </div>
+                        <div>
+                            <input type="text" style="width:90px;">
+                        </div>
+                        <div>
+                            <select class="form" id="nox_rmns_1">
+                                <option>
+                                    <1%</option> <option>
+                                        <2%</option> <option>
+                                            <3%</option> <option>>3%
+                                </option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <p>RMNS</p>
+                        </div>
+                        <div>
+                            <input type="text" style="width:90px;">
+                        </div>
+                        <div>
+                            <select class="form" id="nox_rmns_2">
+                                <option>
+                                    <1%</option> <option>
+                                        <2%</option> <option>
+                                            <3%</option> <option>>3%
+                                </option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <p>RMNS</p>
+                        </div>
+                        <div>
+                            <input type="text" style="width:90px;">
+                        </div>
+                        <div>
+                            <select class="form" id="nox_rmns_3">
+                                <option>
+                                    <1%</option> <option>
+                                        <2%</option> <option>
+                                            <3%</option> <option>>3%
+                                </option>
+                            </select>
+                        </div>
+
+                        <div style="justify-content: left; text-align: left; grid-column: 1 / span 2;">
+                            <p>Suspect Samples:</p>
+                        </div>
+                        <div style="display:flex; justify-content: center; grid-column: 1 / span 3;">
+                            <textarea class="form" rows=5 cols=40 placeholder="Suspect sample infomation"
+                                id="nox_suspect_samples"></textarea>
+                        </div>
+                    </div>
+
+
+                    <!-- Phosphate -->
+
+
+                    <div
+                        style="display: grid; grid-template-columns: 0.3fr 0.3fr 0.3fr; gap: 15px 5px; justify-content: center; padding: 20px 5px 25px 5px; border: 1px solid rgb(175, 175, 175); border-radius: 0.5em;">
+                        <div style="display:flex; grid-column: 1 / span 3; justify-content: center;">
+                            <p style="font-weight: 500;">Phosphate</p>
+                        </div>
+                        <div style=" display:flex; grid-column: 1 / span 1; justify-content: center;">
+                            <p>Calibrants:</p>
+                        </div>
+                        <div style=" display:flex; grid-column: 2 / span 1; justify-content: left;">
+                            <select class="form" id="phosphate_calibrants">
+                                <option>Good</option>
+                                <option>Suspect</option>
+                                <option>Bad</option>
+                            </select>
+                        </div>
+                        <div style="display:flex; justify-content: center; grid-column: 1 / span 3;">
+                            <textarea class="form" rows=4 cols=45 placeholder="Calibrant comments"
+                                id="phosphate_calibrants_comments"></textarea>
+                        </div>
+
+                        <div>
+                        </div>
+                        <div>
+                            <p>Specification</p>
+                        </div>
+                        <div>
+                            <p>Result</p>
+                        </div>
+
+                        <div>
+                            <p>R²</p>
+                        </div>
+                        <div>
+                            <p>>0.9990</p>
+                        </div>
+                        <div>
+                            <input class="form" type="text" style="width:90px;" id="phosphate_r_squared">
+                        </div>
+
+                        <div>
+                            <p title="Largest diff between points">Baseline</p>
+                        </div>
+                        <div>
+                            <p>
+                                <1.5%</p> </div> <div>
+                                    <select class="form" id="phosphate_baseline">
+                                        <option>Pass</option>
+                                        <option>Fail</option>
+                                    </select>
+                        </div>
+
+                        <div>
+                            <p>Drift </p>
+                        </div>
+                        <div>
+                            <p>
+                                <1.5%</p> </div> <div>
+                                    <select class="form" id="phosphate_drift">
+                                        <option>Pass</option>
+                                        <option>Fail</option>
+                                    </select>
+                        </div>
+
+                        <div>
+                            <p>MDL</p>
+                        </div>
+                        <div>
+                            <p>0.02</p>
+                        </div>
+                        <div>
+                            <select class="form" id="phosphate_mdl">
+                                <option>Pass</option>
+                                <option>Fail</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <p>Duplicates</p>
+                        </div>
+                        <div>
+                            <p>
+                                <0.06</p> </div> <div>
+                                    <select class="form" id="phosphate_duplicates">
+                                        <option>Pass</option>
+                                        <option>Fail</option>
+                                    </select>
+                        </div>
+
+                        <div>
+                            <p>RMNS</p>
+                        </div>
+                        <div>
+                            <input type="text" style="width:90px;">
+                        </div>
+                        <div>
+                            <select class="form" id="phosphate_rmns_1">
+                                <option>
+                                    <1%</option> <option>
+                                        <2%</option> <option>
+                                            <3%</option> <option>>3%
+                                </option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <p>RMNS</p>
+                        </div>
+                        <div>
+                            <input type="text" style="width:90px;">
+                        </div>
+                        <div>
+                            <select class="form" id="phosphate_rmns_2">
+                                <option>
+                                    <1%</option> <option>
+                                        <2%</option> <option>
+                                            <3%</option> <option>>3%
+                                </option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <p>RMNS</p>
+                        </div>
+                        <div>
+                            <input type="text" style="width:90px;">
+                        </div>
+                        <div>
+                            <select class="form" id="phosphate_rmns_3">
+                                <option>
+                                    <1%</option> <option>
+                                        <2%</option> <option>
+                                            <3%</option> <option>>3%
+                                </option>
+                            </select>
+                        </div>
+
+                        <div style="justify-content: left; text-align: left; grid-column: 1 / span 2;">
+                            <p>Suspect Samples:</p>
+                        </div>
+                        <div style="display:flex; justify-content: center; grid-column: 1 / span 3;">
+                            <textarea class="form" rows=5 cols=40 placeholder="Suspect sample infomation"
+                                id="phosphate_suspect_samples"></textarea>
+                        </div>
+                    </div>
+
+
+                    <!-- Silicate -->
+
+
+                    <div
+                        style="display: grid; grid-template-columns: 0.3fr 0.3fr 0.3fr; gap: 15px 5px; justify-content: center; padding: 20px 5px 25px 5px; border: 1px solid rgb(175, 175, 175); border-radius: 0.5em;">
+                        <div style="display:flex; grid-column: 1 / span 3; justify-content: center;">
+                            <p style="font-weight: 500;">Silicate</p>
+                        </div>
+                        <div style=" display:flex; grid-column: 1 / span 1; justify-content: center;">
+                            <p>Calibrants:</p>
+                        </div>
+                        <div style=" display:flex; grid-column: 2 / span 1; justify-content: left;">
+                            <select class="form" id="silicate_calibrants">
+                                <option>Good</option>
+                                <option>Suspect</option>
+                                <option>Bad</option>
+                            </select>
+                        </div>
+                        <div style="display:flex; justify-content: center; grid-column: 1 / span 3;">
+                            <textarea class="form" rows=4 cols=45 placeholder="Calibrant comments"
+                                id="silicate_calibrants_comments"></textarea>
+                        </div>
+
+                        <div>
+                        </div>
+                        <div>
+                            <p>Specification</p>
+                        </div>
+                        <div>
+                            <p>Result</p>
+                        </div>
+
+                        <div>
+                            <p>R²</p>
+                        </div>
+                        <div>
+                            <p>>0.9990</p>
+                        </div>
+                        <div>
+                            <input class="form" type="text" style="width:90px;" id="silicate_r_squared">
+                        </div>
+
+                        <div>
+                            <p title="Largest diff between points">Baseline</p>
+                        </div>
+                        <div>
+                            <p>
+                                <1.5%</p> </div> <div>
+                                    <select class="form" id="silicate_baseline">
+                                        <option>Pass</option>
+                                        <option>Fail</option>
+                                    </select>
+                        </div>
+
+                        <div>
+                            <p>Drift </p>
+                        </div>
+                        <div>
+                            <p>
+                                <1.5%</p> </div> <div>
+                                    <select class="form" id="silicate_drift">
+                                        <option>Pass</option>
+                                        <option>Fail</option>
+                                    </select>
+                        </div>
+
+                        <div>
+                            <p>MDL</p>
+                        </div>
+                        <div>
+                            <p>0.02</p>
+                        </div>
+                        <div>
+                            <select class="form" id="silicate_mdl">
+                                <option>Pass</option>
+                                <option>Fail</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <p>Duplicates</p>
+                        </div>
+                        <div>
+                            <p>
+                                <0.06</p> </div> <div>
+                                    <select class="form" id="silicate_duplicates">
+                                        <option>Pass</option>
+                                        <option>Fail</option>
+                                    </select>
+                        </div>
+
+                        <div>
+                            <p>RMNS</p>
+                        </div>
+                        <div>
+                            <input type="text" style="width:90px;">
+                        </div>
+                        <div>
+                            <select class="form" id="silicate_rmns_1">
+                                <option>
+                                    <1%</option> <option>
+                                        <2%</option> <option>
+                                            <3%</option> <option>>3%
+                                </option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <p>RMNS</p>
+                        </div>
+                        <div>
+                            <input type="text" style="width:90px;">
+                        </div>
+                        <div>
+                            <select class="form" id="silicate_rmns_2">
+                                <option>
+                                    <1%</option> <option>
+                                        <2%</option> <option>
+                                            <3%</option> <option>>3%
+                                </option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <p>RMNS</p>
+                        </div>
+                        <div>
+                            <input type="text" style="width:90px;">
+                        </div>
+                        <div>
+                            <select class="form" id="silicate_rmns_3">
+                                <option>
+                                    <1%</option> <option>
+                                        <2%</option> <option>
+                                            <3%</option> <option>>3%
+                                </option>
+                            </select>
+                        </div>
+
+                        <div style="justify-content: left; text-align: left; grid-column: 1 / span 2;">
+                            <p>Suspect Samples:</p>
+                        </div>
+                        <div style="display:flex; justify-content: center; grid-column: 1 / span 3;">
+                            <textarea class="form" rows=5 cols=40 placeholder="Suspect sample infomation"
+                                id="silicate_suspect_samples"></textarea>
+                        </div>
+                    </div>
+
+
+                    <!-- Ammonia -->
+
+
+                    <div
+                        style="display: grid; grid-template-columns: 0.3fr 0.3fr 0.3fr; gap: 15px 5px; justify-content: center; padding: 20px 5px 25px 5px; border: 1px solid rgb(175, 175, 175); border-radius: 0.5em;">
+                        <div style="display:flex; grid-column: 1 / span 3; justify-content: center;">
+                            <p style="font-weight: 500;">Ammonia</p>
+                        </div>
+                        <div style=" display:flex; grid-column: 1 / span 1; justify-content: center;">
+                            <p>Calibrants:</p>
+                        </div>
+                        <div style=" display:flex; grid-column: 2 / span 1; justify-content: left;">
+                            <select class="form" id="ammonia_calibrants">
+                                <option>Good</option>
+                                <option>Suspect</option>
+                                <option>Bad</option>
+                            </select>
+                        </div>
+                        <div style="display:flex; justify-content: center; grid-column: 1 / span 3;">
+                            <textarea class="form" rows=4 cols=45 placeholder="Calibrant comments"
+                                id="ammonia_calibrants_comments"></textarea>
+                        </div>
+
+                        <div>
+                        </div>
+                        <div>
+                            <p>Specification</p>
+                        </div>
+                        <div>
+                            <p>Result</p>
+                        </div>
+
+                        <div>
+                            <p>R²</p>
+                        </div>
+                        <div>
+                            <p>>0.9990</p>
+                        </div>
+                        <div>
+                            <input class="form" type="text" style="width:90px;" id="ammonia_r_squared">
+                        </div>
+
+                        <div>
+                            <p title="Largest diff between points">Baseline</p>
+                        </div>
+                        <div>
+                            <p>
+                                <1.5%</p> </div> <div>
+                                    <select class="form" id="ammonia_baseline">
+                                        <option>Pass</option>
+                                        <option>Fail</option>
+                                    </select>
+                        </div>
+
+                        <div>
+                            <p>Drift </p>
+                        </div>
+                        <div>
+                            <p>
+                                <1.5%</p> </div> <div>
+                                    <select class="form" id="ammonia_drift">
+                                        <option>Pass</option>
+                                        <option>Fail</option>
+                                    </select>
+                        </div>
+
+                        <div>
+                            <p>MDL</p>
+                        </div>
+                        <div>
+                            <p>0.02</p>
+                        </div>
+                        <div>
+                            <select class="form" id="ammonia_mdl">
+                                <option>Pass</option>
+                                <option>Fail</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <p>Duplicates</p>
+                        </div>
+                        <div>
+                            <p>
+                                <0.06</p> </div> <div>
+                                    <select class="form" id="ammonia_duplicates">
+                                        <option>Pass</option>
+                                        <option>Fail</option>
+                                    </select>
+                        </div>
+
+                        <div>
+                            <p>RMNS</p>
+                        </div>
+                        <div>
+                            <input type="text" style="width:90px;">
+                        </div>
+                        <div>
+                            <select class="form" id="ammonia_rmns_1">
+                                <option>
+                                    <1%</option> <option>
+                                        <2%</option> <option>
+                                            <3%</option> <option>>3%
+                                </option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <p>RMNS</p>
+                        </div>
+                        <div>
+                            <input type="text" style="width:90px;">
+                        </div>
+                        <div>
+                            <select class="form" id="ammonia_rmns_2">
+                                <option>
+                                    <1%</option> <option>
+                                        <2%</option> <option>
+                                            <3%</option> <option>>3%
+                                </option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <p>RMNS</p>
+                        </div>
+                        <div>
+                            <input type="text" style="width:90px;">
+                        </div>
+                        <div>
+                            <select class="form" id="ammonia_rmns_3">
+                                <option>
+                                    <1%</option> <option>
+                                        <2%</option> <option>
+                                            <3%</option> <option>>3%
+                                </option>
+                            </select>
+                        </div>
+
+                        <div style="justify-content: left; text-align: left; grid-column: 1 / span 2;">
+                            <p>Suspect Samples:</p>
+                        </div>
+                        <div style="display:flex; justify-content: center; grid-column: 1 / span 3;">
+                            <textarea class="form" rows=5 cols=40 placeholder="Suspect sample infomation"
+                                id="ammonia_suspect_samples"></textarea>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Nitrite -->
+
+
+                    <div
+                        style="display: grid; grid-template-columns: 0.3fr 0.3fr 0.3fr; gap: 15px 5px; justify-content: center; padding: 20px 5px 25px 5px; border: 1px solid rgb(175, 175, 175); border-radius: 0.5em;">
+                        <div style="display:flex; grid-column: 1 / span 3; justify-content: center;">
+                            <p style="font-weight: 500;">Nitrite</p>
+                        </div>
+                        <div style=" display:flex; grid-column: 1 / span 1; justify-content: center;">
+                            <p>Calibrants:</p>
+                        </div>
+                        <div style=" display:flex; grid-column: 2 / span 1; justify-content: left;">
+                            <select class="form" id="nitrite_calibrants">
+                                <option>Good</option>
+                                <option>Suspect</option>
+                                <option>Bad</option>
+                            </select>
+                        </div>
+                        <div style="display:flex; justify-content: center; grid-column: 1 / span 3;">
+                            <textarea class="form" rows=4 cols=45 placeholder="Calibrant comments"
+                                id="nitrite_calibrants_comments"></textarea>
+                        </div>
+
+                        <div>
+                        </div>
+                        <div>
+                            <p>Specification</p>
+                        </div>
+                        <div>
+                            <p>Result</p>
+                        </div>
+
+                        <div>
+                            <p>R²</p>
+                        </div>
+                        <div>
+                            <p>>0.9990</p>
+                        </div>
+                        <div>
+                            <input class="form" type="text" style="width:90px;" id="nitrite_r_squared">
+                        </div>
+
+                        <div>
+                            <p title="Largest diff between points">Baseline</p>
+                        </div>
+                        <div>
+                            <p>
+                                <1.5%</p> </div> <div>
+                                    <select class="form" id="nitrite_baseline">
+                                        <option>Pass</option>
+                                        <option>Fail</option>
+                                    </select>
+                        </div>
+
+                        <div>
+                            <p>Drift </p>
+                        </div>
+                        <div>
+                            <p>
+                                <1.5%</p> </div> <div>
+                                    <select class="form" id="nitrite_drift">
+                                        <option>Pass</option>
+                                        <option>Fail</option>
+                                    </select>
+                        </div>
+
+                        <div>
+                            <p>MDL</p>
+                        </div>
+                        <div>
+                            <p>0.02</p>
+                        </div>
+                        <div>
+                            <select class="form" id="nitrite_mdl">
+                                <option>Pass</option>
+                                <option>Fail</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <p>Duplicates</p>
+                        </div>
+                        <div>
+                            <p>
+                                <0.06</p> </div> <div>
+                                    <select class="form" id="nitrite_duplicates">
+                                        <option>Pass</option>
+                                        <option>Fail</option>
+                                    </select>
+                        </div>
+
+                        <div>
+                            <p>RMNS</p>
+                        </div>
+                        <div>
+                            <input type="text" style="width:90px;">
+                        </div>
+                        <div>
+                            <select class="form" id="nitrite_rmns_1">
+                                <option>
+                                    <1%</option> <option>
+                                        <2%</option> <option>
+                                            <3%</option> <option>>3%
+                                </option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <p>RMNS</p>
+                        </div>
+                        <div>
+                            <input type="text" style="width:90px;">
+                        </div>
+                        <div>
+                            <select class="form" id="nitrite_rmns_2">
+                                <option>
+                                    <1%</option> <option>
+                                        <2%</option> <option>
+                                            <3%</option> <option>>3%
+                                </option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <p>RMNS</p>
+                        </div>
+                        <div>
+                            <input type="text" style="width:90px;">
+                        </div>
+                        <div>
+                            <select class="form" id="nitrite_rmns_3">
+                                <option>
+                                    <1%</option> <option>
+                                        <2%</option> <option>
+                                            <3%</option> <option>>3%
+                                </option>
+                            </select>
+                        </div>
+
+                        <div style="justify-content: left; text-align: left; grid-column: 1 / span 2;">
+                            <p>Suspect Samples:</p>
+                        </div>
+                        <div style="display:flex; justify-content: center; grid-column: 1 / span 3;">
+                            <textarea class="form" rows=5 cols=40 placeholder="Suspect sample infomation"
+                                id="nitrite_suspect_samples"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a name="review"></a>
+
+            <hr>
+
+            <!-- Review Fields -->
+            <div class="centered-div">
+                <h3>⭐ Review</h3>
+            </div>
+            <div class="centered-div">
+                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 5px 20px;">
+                    <div style="display: grid; grid-template-columns: 1fr;">
+                        <p style="padding-left:0px;">File checked by:</p>
+                        <select class="form" id="review_person">
+                            <option>Merinda</option>
+                            <option>Alicia</option>
+                            <option>Cassie</option>
+                            <option>Christine</option>
+                            <option>Jack</option>
+                            <option>Julie</option>
+                            <option>Pete</option>
+                            <option>Steve</option>
+                            <option>Kendall</option>
+                        </select>
+                        <p style="padding-left:0px; margin-top:5px;">Date:</p>
+                        <input class="form" type=date id="review_date">
+                        <p style="padding-left:0px; margin-top:5px;">Outcome:</p>
+                        <select class="form" id="review_outcome">
+                            <option>Pass</option>
+                            <option>Re-Run</option>
+                        </select>
+                    </div>
+                    <div>
+                        <p style="padding-left:0px;">Run Comments:</p>
+                        <textarea class="form" rows=7 cols=50 id="review_comments"></textarea>
+                    </div>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 60px; margin-bottom: 70px; font-size: small;">Don't forget to
+                save!</p>
+        </div>
+    </div>
+</body>
+
+<script src="page_functions.js"></script>
+
+</html>
