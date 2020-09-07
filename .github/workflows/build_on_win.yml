@@ -11,9 +11,7 @@ jobs:
     name: Create Executable
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        ref: feature/github-actions        
+    - uses: actions/checkout@v1    
     - uses: actions/setup-node@master
       with:
         node-version: 10.16
