@@ -23,6 +23,8 @@ jobs:
     - name: Build Executable
       run: |
         npm run dist
+      with:
+        github_token: ${{ secrets.github_token }}
          
     - name: see directory
       run: ls
