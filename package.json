@@ -23,7 +23,7 @@
     "appId": "RAPS",
     "win": {
       "target": "NSIS",
-      "icon": "img/icon.ico"
+      "icon": "./img/icon.ico"
     }
   },
   "author": "Kendall",
