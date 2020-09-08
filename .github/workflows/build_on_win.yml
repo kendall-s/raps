@@ -3,8 +3,8 @@ name: Build
 # this will help you specify where to run 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - 'v*'
 
 jobs:
   build_on_win:
