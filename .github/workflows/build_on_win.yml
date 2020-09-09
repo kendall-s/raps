@@ -37,8 +37,7 @@ jobs:
         args: zip -qq -r dist.zip dist
 
     - name: Log Directory
-        run: ls
-
+      run: ls
     - name: Create release
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
