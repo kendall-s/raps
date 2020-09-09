@@ -466,7 +466,7 @@ function save_all_data(appdata_save = false, new_version = false) {
 
                 rack_used: form_data['rack_file_used'],
                 trace_checked: form_data['trace_checked'],
-                track_concerns: form_data['track_concerns'],
+                track_concerns: form_data['trace_concerns'],
 
                 nox_calibrants: form_data['nox_calibrants'],
                 nox_calibrants_comment: form_data['nox_calibrants_comments'],
@@ -892,34 +892,6 @@ function clear_all() {
 
 }
 
-// Handles the opening directory button, just sends message to Main loop
-function open_dir() {
-    console.log('Clicked')
-    window.postMessage({
-        type: 'select_dir'
-    })
-}
-
-// Handles the load file button, gets selected file, sends to Main loop
-function load_file(version = false) {
-    var sel_list = document.getElementById("csv_file_list");
-    var index_select = sel_list.options.selectedIndex;
-    var value = sel_list.options[index_select].value;
-    console.log(value);
-    window.postMessage({
-        type: 'select_file',
-        file: value,
-        version: version
-    })
-}
-
-// Handles the save data button 
-function save_data() {
-    window.postMessage({
-        type: 'save_dialog'
-    })
-}
-
 // Dynamically add row to samples table
 function add_sample_table_row() {
     var samp_table = document.getElementById("samples_table");
@@ -956,6 +928,52 @@ function add_sample_table_row() {
     td.appendChild(samp_input)
 
 }
+
+// When the daily checklist tasks are completed, clicking the All checked ticks all those boxes
+function check_all(){
+    all_checker_box = document.getElementById("all_daily_checked") 
+    check_alls = document.getElementsByClassName("daily_checkall")
+    if (all_checker_box.checked) {
+        for (el of check_alls) {
+            el.checked = true
+        }
+    } else {
+        for (el of check_alls) {
+            el.checked = false
+        }
+    }
+}
+
+
+
+// Handles the opening directory button, just sends message to Main loop
+function open_dir() {
+    console.log('Clicked')
+    window.postMessage({
+        type: 'select_dir'
+    })
+}
+
+// Handles the load file button, gets selected file, sends to Main loop
+function load_file(version = false) {
+    var sel_list = document.getElementById("csv_file_list");
+    var index_select = sel_list.options.selectedIndex;
+    var value = sel_list.options[index_select].value;
+    console.log(value);
+    window.postMessage({
+        type: 'select_file',
+        file: value,
+        version: version
+    })
+}
+
+// Handles the save data button 
+function save_data() {
+    window.postMessage({
+        type: 'save_dialog'
+    })
+}
+
 
 // Util functions related to handling the custom title bar of the page 
 

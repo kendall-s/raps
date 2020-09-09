@@ -31,6 +31,10 @@ jobs:
       with:
         name: build_contents
         path: dist
+    - name: Create zip
+    - uses: montudor/action-zip@v0.1.0
+        with:
+          args: zip -qq -r dist.zip dist
     - name: Create release
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
@@ -38,4 +42,4 @@ jobs:
         prerelease: false
         title: "Automatic Build"
         files: |
-          ./dist/*
+          /*.zip

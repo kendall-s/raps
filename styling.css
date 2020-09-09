@@ -252,7 +252,7 @@ hr {
     position: fixed; /* Fixed Sidebar (stay in place on scroll) */
     z-index: 1; /* Stay on top */
     top: 32px; /* Stay at the top */
-    left: 40px;
+    left: 50px;
     background-color: rgb(53, 53, 53); /* Black */
     overflow: hidden;
     padding-top: 3px;
@@ -298,7 +298,7 @@ hr {
     position: fixed; /* Fixed Sidebar (stay in place on scroll) */
     z-index: 10; /* Stay on top */
     top: 62px; /* Stay at the top */
-    left: 40px;
+    left: 50px;
     background-color: rgb(237, 238, 241); /* Black */
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 0px;
@@ -446,7 +446,7 @@ hr {
 */
 .sidenav-control {
     height: 100%; /* Full-height: remove this if you want "auto" height */
-    width: 40px; /* Set the width of the sidebar */
+    width: 50px; /* Set the width of the sidebar */
     position: fixed; /* Fixed Sidebar (stay in place on scroll) */
     z-index: 1; /* Stay on top */
     top: 32px; /* Stay at the top */
@@ -479,8 +479,8 @@ hr {
 }
 
 .sidenav_selected {
-    background-color: rgb(224, 224, 224);
-
+    background-color: rgb(237, 238, 241);
+    
 }
 .sidenav_selected p {
     color: rgb(37, 37, 37) !important;

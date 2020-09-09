@@ -199,7 +199,7 @@
         <div class="main_doc" id="main_doc" style="overflow-y: scroll; margin-bottom: 100px;">
             <div class="header-div">
                 <div
-                    style="padding-top: 40px; padding-bottom: 20px; display: flex; justify-content: center; text-align: center;">
+                    style="padding-top: 50px; padding-bottom: 20px; display: flex; justify-content: center; text-align: center;">
                     <h1>
                         📑 Run Analysis and Processing Sheet
                         <a name="pre-analysis"></a>
@@ -312,16 +312,16 @@
                 <div style="display: grid; grid-template-columns: 1fr; align-items: center;">
                     <div style="display: grid; grid-template-columns: 1fr 0.5fr;">
                         <div style="display: grid; grid-template-columns: 0.1fr 1fr 0.1fr 1fr; align-items: center;">
-                            <input class="form" type="checkbox" id='air_valve'>
+                            <input class="form daily_checkall" type="checkbox" id='air_valve'>
                             <label for='air_valve'> Air Tubing Moved </label>
-                            <input class="form" type="checkbox" id='mq_cont'>
+                            <input class="form daily_checkall" type="checkbox" id='mq_cont'>
                             <label for='mq_cont'> MQ Container Filled </label>
-                            <input class="form" type="checkbox" id='reagents_ran'>
+                            <input class="form daily_checkall" type="checkbox" id='reagents_ran'>
                             <label for='reagents_ran'> Reagents Ran for 30 mins </label>
-                            <input class="form" type="checkbox" id='reagents_sufficient'>
+                            <input class="form daily_checkall" type="checkbox" id='reagents_sufficient'>
                             <label for='reagents_sufficient'> Reagents Volume Sufficient </label>
-                            <input class="form" type="checkbox" id='correct_rack_file'>
-                            <label for='reagents_sufficient'>Correct Rack File </label>
+                            <input class="form daily_checkall" type="checkbox" id='correct_rack_file'>
+                            <label for='correct_rack_file'>Correct Rack File </label>
                         </div>
                         <div style="padding-left: 15px;">
                             <p style="padding-left: 0px; margin-top: 0px; margin-bottom: 5px;">Comments:</p>
@@ -329,7 +329,7 @@
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; justify-content: center; margin-top: 10px;">
-                        <input class="form" type="checkbox" id='all_daily_checked'>
+                        <input class="form" type="checkbox" id='all_daily_checked' onclick="check_all()">
                         <label for='all_daily_checked'> All Checked </label>
                     </div>
 
@@ -1423,6 +1423,7 @@
                     <div style="display: grid; grid-template-columns: 1fr;">
                         <p style="padding-left:0px;">File checked by:</p>
                         <select class="form" id="review_person">
+                            <option disabled selected value> Select Reviewer</option>
                             <option>Merinda</option>
                             <option>Alicia</option>
                             <option>Cassie</option>
