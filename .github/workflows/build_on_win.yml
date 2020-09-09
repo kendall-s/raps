@@ -9,7 +9,7 @@ on:
 jobs:
   build_on_win:
     name: Create Executable
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1    
     - uses: actions/setup-node@master
@@ -24,7 +24,7 @@ jobs:
       run: |
         npm run dist
          
-    - name: see directory
+    - name: Log Directory
       run: ls
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
