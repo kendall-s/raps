@@ -36,7 +36,7 @@ jobs:
       with:
         args: zip -qq -r dist.zip dist
 
-    -  name: Log Directory
+    - name: Log Directory
         run: ls
 
     - name: Create release
