@@ -31,6 +31,7 @@ jobs:
       with:
         name: build_contents
         path: dist
+
     - name: Create zip
       uses: montudor/action-zip@v0.1.0
       with:
@@ -38,6 +39,7 @@ jobs:
 
     - name: Log Directory
       run: ls
+
     - name: Create release
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
