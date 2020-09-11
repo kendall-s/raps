@@ -17,14 +17,13 @@
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dist": "electron-builder -w"
+    "dist": "electron-builder -w -- publish=never"
   },
   "build": {
     "appId": "RAPS",
     "win": {
       "target": "NSIS",
-      "icon": "./img/icon.ico",
-      "publish": "never"
+      "icon": "./img/icon.ico"
     }
   },
   "author": "Kendall",
