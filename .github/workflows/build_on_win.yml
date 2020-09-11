@@ -9,8 +9,12 @@ on:
 jobs:
   build_on_win:
     name: Create Executable
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
+    - name: Install 7Zip for zipping
+      shell: powershell
+      run: Install-Module 7Zip4PowerShell -Force -Verbose
+
     - uses: actions/checkout@v1    
     - uses: actions/setup-node@master
       with:
@@ -33,10 +37,9 @@ jobs:
         path: dist
 
     - name: Create zip
-      uses: montudor/action-zip@v0.1.0
-      with:
-        args: zip -qq -r dist.zip dist
-
+      run : |
+        7z a zip ./dist/*
+      
     - name: Log Directory
       run: ls
 
