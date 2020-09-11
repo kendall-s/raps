@@ -38,7 +38,7 @@ jobs:
 
     - name: Create zip
       run : |
-        7z a zip ./dist/*
+        7z a dist.zip ./dist/*
       
     - name: Log Directory
       run: ls
