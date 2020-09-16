@@ -35,10 +35,9 @@ jobs:
       with:
         name: build_contents
         path: dist
-
     - name: Create zip
       run : |
-        7z a distribution.zip ./dist/*
+        7z a distribution.zip ./dist/win-unpacked/*
       
     - name: Log Directory
       run: ls
