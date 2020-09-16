@@ -47,7 +47,7 @@
     <div class="main">
         <!-- Top Nav -->
         <div class="topnav">
-            <p style="text-align: center;"> <b>File Open: </b></p>
+            <p style="text-align: center; width: 100px;"> <b>File Open: </b></p>
             <p style="text-align: center; margin-left: 10px;" id="file_currently_open"><i>New</i></p>
             <div style="padding-right: 50px; margin-left: auto; display: flex; flex-direction: row;">
                 <p>Version:</p>
@@ -108,7 +108,7 @@
             </div>
             <div style="display:flex; justify-content: center;">
                 <select id="csv_file_list" class="sidenav-select" size="27"
-                    style="width: 150px; justify-content: center; display: flex; padding-top: 5px;">
+                    style="width: 150px; justify-content: center; display: flex;">
                     <option>
                         Browse
                     </option>
@@ -1423,7 +1423,7 @@
                     <div style="display: grid; grid-template-columns: 1fr;">
                         <p style="padding-left:0px;">File checked by:</p>
                         <select class="form" id="review_person">
-                            <option disabled selected value> Select Reviewer</option>
+                            <option selected value> Select Reviewer</option>
                             <option>Merinda</option>
                             <option>Alicia</option>
                             <option>Cassie</option>
@@ -1438,6 +1438,7 @@
                         <input class="form" type=date id="review_date">
                         <p style="padding-left:0px; margin-top:5px;">Outcome:</p>
                         <select class="form" id="review_outcome">
+                            <option>For Review</option>
                             <option>Pass</option>
                             <option>Re-Run</option>
                         </select>

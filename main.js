@@ -131,6 +131,7 @@ ipcMain.on('select_file', async(event, data) => {
   });
 })
 
+
 // Message box for saying a CSV file was successfully read in
 ipcMain.on('file_loaded_success', async(event, arg) => {
   const disp = await dialog.showMessageBox({

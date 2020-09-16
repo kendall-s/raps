@@ -69,7 +69,9 @@ ipcRenderer.on('save_path', (event, data) => {
     console.log(data);
 
     // Set the file currently open element to the file path 
-    document.getElementById("file_currently_open").innerHTML = data.filePath;
+    const file_split = data.filePath.split("\\");
+    document.getElementById("file_currently_open").innerHTML = file_split[file_split.length-1];
+    document.getElementById("file_currently_open").title = data.filePath;
     file_being_edited = data.filePath;
 
     // Save all the data to the selected path and then also refresh the file list to include to file
@@ -86,7 +88,9 @@ ipcRenderer.on('load_form_data', (event, data) => {
     console.log(data);
 
     // Set the file path text to the file path
-    document.getElementById("file_currently_open").innerHTML = data['filePath'];
+    const file_split = data.filePath.split("\\");
+    document.getElementById("file_currently_open").innerHTML = file_split[file_split.length-1];
+    document.getElementById("file_currently_open").title = data.filePath;
 
     // Get the number of versions, then also reset the version select dropdown
     var latest_version = data['csv_data'].length - 1;
@@ -189,6 +193,7 @@ function populate_file_list(csv_files) {
         var name = document.createElement("option")
         name.appendChild(document.createTextNode(csv_name['name']))
         name.value = csv_name['path']
+        name.title = csv_name['name']
         sel_list.append(name)
     });
 }
@@ -744,9 +749,17 @@ function populate_all_data(data, version) {
         // Format correctly so that the checkboxes are correctly fixed 
         if (field.type === 'checkbox') {
             let check_state = data[header_converter[field.id]];
-            if (check_state == "true") {
+            if (check_state == "TRUE") {
                 field.checked = true;
             }
+        } 
+        
+        if (field.type === 'date') {
+            const date = data[header_converter[field.id]];
+            console.log(date)
+            const split_date = date.split('/');
+            const fmt_date = split_date[2] + '-' + ('0' + split_date[1]).slice(-2) + '-' + ('0' + split_date[0]).slice(-2)
+            field.value = fmt_date;
         } else {
             field.value = data[header_converter[field.id]];
         }
