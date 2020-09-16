@@ -6,6 +6,7 @@ var file_sidebar_open = false;
 var search_sidebar_open = false;
 
 const fs = require('fs')
+const csv = require('csv-parser')
 const { ipcRenderer } = require('electron')
 const remote = require('electron').remote;
 const app = remote.app;
@@ -70,7 +71,7 @@ ipcRenderer.on('save_path', (event, data) => {
 
     // Set the file currently open element to the file path 
     const file_split = data.filePath.split("\\");
-    document.getElementById("file_currently_open").innerHTML = file_split[file_split.length-1];
+    document.getElementById("file_currently_open").innerHTML = file_split[file_split.length - 1];
     document.getElementById("file_currently_open").title = data.filePath;
     file_being_edited = data.filePath;
 
@@ -89,7 +90,7 @@ ipcRenderer.on('load_form_data', (event, data) => {
 
     // Set the file path text to the file path
     const file_split = data.filePath.split("\\");
-    document.getElementById("file_currently_open").innerHTML = file_split[file_split.length-1];
+    document.getElementById("file_currently_open").innerHTML = file_split[file_split.length - 1];
     document.getElementById("file_currently_open").title = data.filePath;
 
     // Get the number of versions, then also reset the version select dropdown
@@ -209,7 +210,7 @@ function save_to_both_paths() {
 
 // Saves the data to the CSV with a human readable header (which is why this is so damn long...)
 function save_all_data(appdata_save = false, new_version = false) {
-    file_path = document.getElementById("file_currently_open").innerHTML
+    file_path = document.getElementById("file_currently_open").title;
     // Can't save the file, if a New file is opened and a path isn't specified
     if (file_path == "<i>New</i>") {
         console.log("Not saving file...")
@@ -375,21 +376,22 @@ function save_all_data(appdata_save = false, new_version = false) {
             { id: 'review_person', title: 'Review Person' },
             { id: 'review_date', title: 'Review Date' },
             { id: 'review_outcome', title: 'Review Outcome' },
-            { id: 'review_comment', title: 'Review Comment' }
+            { id: 'review_comment', title: 'Review Comment' },
+
+            { id: 'samples_1', title: 'Samples 1' },
+            { id: 'samples_cond_1', title: 'Samples 1 Condition' },
+            { id: 'samples_comment_1', title: 'Samples 1 Comment' },
+
+            { id: 'samples_2', title: 'Samples 2' },
+            { id: 'samples_cond_2', title: 'Samples 2 Condition' },
+            { id: 'samples_comment_2', title: 'Samples 2 Comment' },
+
+            { id: 'samples_3', title: 'Samples 3' },
+            { id: 'samples_cond_3', title: 'Samples 3 Condition' },
+            { id: 'samples_comment_3', title: 'Samples 3 Comment' }
         ]
 
-        const samp_table = document.getElementById("samples_table")
-
-        const samples_table_row_cnt = samp_table.rows.length;
-        console.log(samples_table_row_cnt);
-
-        for (let i = 0; i < samples_table_row_cnt-1; i++) {
-            csv_header.push({ id: `samples_${i+1}`, title: `Samples ${i+1}` });
-            csv_header.push({ id: `samples_cond_${i+1}`, title: `Samples ${i+1} Condition` });
-            csv_header.push({ id: `samples_comment_${i+1}`, title: `Samples ${i+1} Comment` });
-        }
-
-        // Create a CSV header 
+        // Create a CSV writer object, passing the header object with ID and column Title 
         const csvWriter = createCsvWriter({
             path: file_path,
             header: csv_header,
@@ -536,32 +538,40 @@ function save_all_data(appdata_save = false, new_version = false) {
                 review_person: form_data['review_person'],
                 review_date: form_data['review_date'],
                 review_outcome: form_data['review_outcome'],
-                review_comment: form_data['review_comments']
+                review_comment: form_data['review_comments'],
+
+                samples_1: form_data['samples_1'],
+                samples_condition_1: form_data['samples_condition_1'],
+                samples_comment_1: form_data['samples_comment_1'],
+
+                samples_2: form_data['samples_2'],
+                samples_condition_2: form_data['samples_condition_2'],
+                samples_comment_2: form_data['samples_comment_2'],
+
+                samples_3: form_data['samples_3'],
+                samples_condition_3: form_data['samples_condition_3'],
+                samples_comment_3: form_data['samples_comment_3'],
 
             }];
 
-        for (let i = 0; i < samples_table_row_cnt-1; i++) {
-            output[0][`samples_${i+1}`] = form_data[`samples_${i+1}`];
-            output[0][`samples_cond_${i+1}`] = form_data[`samples_condition_${i+1}`];
-            output[0][`samples_comment_${i+1}`] = form_data[`samples_comment_${i+1}`];
-        };
+        // Write data to csv file, updating the version number to match the now newest version
+        csvWriter.writeRecords(output)
+            .then(() => {
 
-        csvWriter.writeRecords(output).then(() => {
+                if (appdata_save == false) {
+                    const vc = document.getElementById("version-select")
+                    let options_len = vc.options.length
 
-            if (appdata_save == false) {
-                const vc = document.getElementById("version-select")
-                let options_len = vc.options.length
+                    var opt = document.createElement("option");
+                    opt.text = options_len;
+                    vc.add(opt);
+                    vc.selectedIndex = vc.options.length - 1;
 
-                var opt = document.createElement("option");
-                opt.text = options_len;
-                vc.add(opt);
-                vc.selectedIndex = vc.options.length-1;
-
-                window.postMessage({
-                    type: 'new_version_saved'
-                })
-            }
-        });
+                    window.postMessage({
+                        type: 'new_version_saved'
+                    })
+                }
+            });
     }
 }
 
@@ -713,47 +723,32 @@ function populate_all_data(data, version) {
 
         samples_1: 'Samples 1',
         samples_condition_1: 'Samples 1 Condition',
-        samples_comment_1: 'Samples 1 Comment'
+        samples_comment_1: 'Samples 1 Comment',
+
+        samples_2: 'Samples 2',
+        samples_condition_2: 'Samples 2 Condition',
+        samples_comment_2: 'Samples 2 Comment',
+
+        samples_3: 'Samples 3',
+        samples_condition_3: 'Samples 3 Condition',
+        samples_comment_3: 'Samples 3 Comment',
 
     }
-    console.log(data);
-
-    // Short little while loop to add sample table rows if the data exists
-    const samp_table = document.getElementById('samples_table')
-    const row_count = samp_table.rows.length;
-
-    let adding_rows = true;
-    let index_count = 2;
-    while (adding_rows) {
-        if (`Samples ${index_count}` in data) {
-            if (index_count > row_count-1) { //row count minus 1 because of table head
-                add_sample_table_row()
-            }
-            header_converter[`samples_${index_count}`] = `Samples ${index_count}`;
-            header_converter[`samples_condition_${index_count}`] = `Samples ${index_count} Condition`;
-            header_converter[`samples_comment_${index_count}`] = `Samples ${index_count} Comment`;
-
-            index_count ++;
-        } else {
-            adding_rows = false;
-        }
-    }
-
     // Iterate through the form fields on the RAPS sheet and pull the corresponding data from the object
     for (form_field in form_fields) {
 
         field = form_fields[form_field];
         console.log(field.id);
         console.log(header_converter[field.id]);
-        
+
         // Format correctly so that the checkboxes are correctly fixed 
         if (field.type === 'checkbox') {
             let check_state = data[header_converter[field.id]];
             if (check_state == "TRUE") {
                 field.checked = true;
             }
-        } 
-        
+        }
+
         if (field.type === 'date') {
             const date = data[header_converter[field.id]];
             console.log(date)
@@ -779,7 +774,7 @@ function navOpening(button_id) {
             document.getElementById("save_sidenav").style.width = "0";
             document.getElementById("main_doc").style.marginLeft = "0";
             save_sidebar_open = false
-            document.getElementById("save_menu_button").classList.toggle(upClass);
+            document.getElementById("save_menu_button_image").classList.toggle(upClass);
             document.getElementById("save_menu_div").classList.toggle(sidenav_selected_class);
             document.getElementById("save_menu_button_image").src = "img/005-floppy-disk-1.svg"
 
@@ -787,21 +782,21 @@ function navOpening(button_id) {
             document.getElementById("save_sidenav").style.width = "160px";
             document.getElementById("main_doc").style.marginLeft = "160px";
             save_sidebar_open = true
-            document.getElementById("save_menu_button").classList.toggle(upClass);
+            document.getElementById("save_menu_button_image").classList.toggle(upClass);
             document.getElementById("save_menu_div").classList.toggle(sidenav_selected_class);
             document.getElementById("save_menu_button_image").src = "img/008-close.svg"
 
             if (file_sidebar_open == true) {
                 file_sidebar_open = false
                 document.getElementById("file_sidenav").style.width = "0";
-                document.getElementById("file_menu_button").classList.toggle(upClass);
+                document.getElementById("file_menu_button_image").classList.toggle(upClass);
                 document.getElementById("file_menu_div").classList.toggle(sidenav_selected_class);
                 document.getElementById("file_menu_button_image").src = "img/003-file.svg"
             }
             if (search_sidebar_open == true) {
                 search_sidebar_open = false
                 document.getElementById("search_sidenav").style.width = "0";
-                document.getElementById("search_menu_button").classList.toggle(upClass);
+                document.getElementById("search_menu_button_image").classList.toggle(upClass);
                 document.getElementById("search_menu_div").classList.toggle(sidenav_selected_class);
                 document.getElementById("search_menu_button_image").src = "img/search.svg"
             }
@@ -813,27 +808,27 @@ function navOpening(button_id) {
             document.getElementById("file_sidenav").style.width = "0";
             document.getElementById("main_doc").style.marginLeft = "0";
             file_sidebar_open = false
-            document.getElementById("file_menu_button").classList.toggle(upClass);
+            document.getElementById("file_menu_button_image").classList.toggle(upClass);
             document.getElementById("file_menu_div").classList.toggle(sidenav_selected_class);
             document.getElementById("file_menu_button_image").src = "img/003-file.svg"
         } else {
             document.getElementById("file_sidenav").style.width = "160px";
             document.getElementById("main_doc").style.marginLeft = "160px";
             file_sidebar_open = true
-            document.getElementById("file_menu_button").classList.toggle(upClass);
+            document.getElementById("file_menu_button_image").classList.toggle(upClass);
             document.getElementById("file_menu_div").classList.toggle(sidenav_selected_class);
             document.getElementById("file_menu_button_image").src = "img/008-close.svg"
             if (save_sidebar_open == true) {
                 save_sidebar_open = false
                 document.getElementById("save_sidenav").style.width = "0";
-                document.getElementById("save_menu_button").classList.toggle(upClass);
+                document.getElementById("save_menu_button_image").classList.toggle(upClass);
                 document.getElementById("save_menu_div").classList.toggle(sidenav_selected_class);
                 document.getElementById("save_menu_button_image").src = "img/005-floppy-disk-1.svg"
             }
             if (search_sidebar_open == true) {
                 search_sidebar_open = false
                 document.getElementById("search_sidenav").style.width = "0";
-                document.getElementById("search_menu_button").classList.toggle(upClass);
+                document.getElementById("search_menu_button_image").classList.toggle(upClass);
                 document.getElementById("search_menu_div").classList.toggle(sidenav_selected_class);
                 document.getElementById("search_menu_button_image").src = "img/search.svg"
             }
@@ -845,27 +840,27 @@ function navOpening(button_id) {
             document.getElementById("search_sidenav").style.width = "0";
             document.getElementById("main_doc").style.marginLeft = "0";
             search_sidebar_open = false
-            document.getElementById("search_menu_button").classList.toggle(upClass);
+            document.getElementById("search_menu_button_image").classList.toggle(upClass);
             document.getElementById("search_menu_div").classList.toggle(sidenav_selected_class);
             document.getElementById("search_menu_button_image").src = "img/search.svg"
         } else {
             document.getElementById("search_sidenav").style.width = "160px";
             document.getElementById("main_doc").style.marginLeft = "160px";
             search_sidebar_open = true
-            document.getElementById("search_menu_button").classList.toggle(upClass);
+            document.getElementById("search_menu_button_image").classList.toggle(upClass);
             document.getElementById("search_menu_div").classList.toggle(sidenav_selected_class);
             document.getElementById("search_menu_button_image").src = "img/008-close.svg"
             if (save_sidebar_open == true) {
                 save_sidebar_open = false
                 document.getElementById("save_sidenav").style.width = "0";
-                document.getElementById("save_menu_button").classList.toggle(upClass);
+                document.getElementById("save_menu_button_image").classList.toggle(upClass);
                 document.getElementById("save_menu_div").classList.toggle(sidenav_selected_class);
                 document.getElementById("save_menu_button_image").src = "img/005-floppy-disk-1.svg"
             }
             if (file_sidebar_open == true) {
                 file_sidebar_open = false
                 document.getElementById("file_sidenav").style.width = "0";
-                document.getElementById("file_menu_button").classList.toggle(upClass);
+                document.getElementById("file_menu_button_image").classList.toggle(upClass);
                 document.getElementById("file_menu_div").classList.toggle(sidenav_selected_class);
                 document.getElementById("file_menu_button_image").src = "img/003-file.svg"
             }
@@ -905,46 +900,10 @@ function clear_all() {
 
 }
 
-// Dynamically add row to samples table
-function add_sample_table_row() {
-    var samp_table = document.getElementById("samples_table");
-
-    const row_count = samp_table.rows.length;
-    const tr = samp_table.insertRow(row_count);
-
-    var td = document.createElement('td');
-    td = tr.insertCell(0)
-    var samp_input = document.createElement('input')
-    samp_input.setAttribute('type', 'text')
-    samp_input.setAttribute('id', `samples_${row_count}`)
-    samp_input.classList.add("form");
-    td.appendChild(samp_input)
-
-    td = document.createElement('td');
-    td = tr.insertCell(1);
-    var samp_cond = document.createElement('select')
-    samp_cond.setAttribute("id", `samples_condition_${row_count}`)
-    samp_cond.classList.add("form");
-    const cond_options = { ambient: "Ambient", fridge: "Refridgerated", frozen: "Frozen" }
-    for (const key of Object.keys(cond_options)) {
-        samp_cond.add(new Option(cond_options[key], key));
-
-    }
-    td.appendChild(samp_cond)
-
-    var td = document.createElement('td');
-    td = tr.insertCell(2)
-    var samp_input = document.createElement('input')
-    samp_input.setAttribute('type', 'text')
-    samp_input.setAttribute('id', `samples_comment_${row_count}`)
-    samp_input.classList.add("form");
-    td.appendChild(samp_input)
-
-}
 
 // When the daily checklist tasks are completed, clicking the All checked ticks all those boxes
-function check_all(){
-    all_checker_box = document.getElementById("all_daily_checked") 
+function check_all() {
+    all_checker_box = document.getElementById("all_daily_checked")
     check_alls = document.getElementsByClassName("daily_checkall")
     if (all_checker_box.checked) {
         for (el of check_alls) {
@@ -968,15 +927,22 @@ function open_dir() {
 }
 
 // Handles the load file button, gets selected file, sends to Main loop
-function load_file(version = false) {
-    var sel_list = document.getElementById("csv_file_list");
-    var index_select = sel_list.options.selectedIndex;
-    var value = sel_list.options[index_select].value;
-    console.log(value);
-    window.postMessage({
+function load_file(version = false, file_path = false) {
+    let column_check = false;
+    if (file_path) { // Use this to sneakily check the current columns in a file
+        column_check = true;
+        var value = file_path;
+    } else { // Load the file from the selected file in the file list 
+        var sel_list = document.getElementById("csv_file_list");
+        var index_select = sel_list.options.selectedIndex;
+        var value = sel_list.options[index_select].value;
+        console.log(value);
+    }
+    window.postMessage({ // Post load file message back to main thread
         type: 'select_file',
         file: value,
-        version: version
+        version: version,
+        column_check: column_check
     })
 }
 

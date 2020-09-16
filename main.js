@@ -27,13 +27,16 @@ function createWindow () {
   // and load the index.html of the app.
   win.loadFile('index.html')
 
-  win.webContents.openDevTools()
+  //win.webContents.openDevTools()
 
   win.removeMenu();
 
   electronLocalshortcut.register(win, ['Ctrl+S'], () => {
       win.webContents.send('save_shortcut', '');
   });
+  electronLocalshortcut.register(win, ['F12'], () => {
+    win.webContents.toggleDevTools()
+  })
 }
 
 // This method will be called when Electron has finished
@@ -55,7 +58,6 @@ app.on('activate', () => {
   // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow()
-    
   }
 })
 
@@ -127,7 +129,12 @@ ipcMain.on('select_file', async(event, data) => {
   .on('end', () => {
     console.log('CSV file successfully processed');
     context = {"filePath": file_to_open, "csv_data": csv_array, "version": data.version};
-    win.webContents.send('load_form_data', context);
+    if (data.column_check) { // Sneaky little read to check the number of columns in the CSV, redirect file load to different function
+      context = {"cols": csv_array[0].length}
+      win.webContents.send('number_of_csv_cols', context);
+    } else {
+      win.webContents.send('load_form_data', context);
+    }
   });
 })
 

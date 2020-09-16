@@ -245,6 +245,13 @@ hr {
     margin-bottom: 30px;
 } 
 
+.expanded_sidenav {
+    width: 160px !important;
+}
+.expanded_sidenav_doc {
+    margin-left: 160px;
+}
+
 
 .topnav {
     height: 30px; /* Full-height: remove this if you want "auto" height */
@@ -336,8 +343,11 @@ hr {
     padding-bottom: 5px;
     padding-right: 0;
 
-    text-align: left;
+}
+
+.sidenav-select option {
     direction: rtl;
+    text-align: left;
 }
 
 .sidenav-button {
@@ -361,6 +371,8 @@ hr {
     text-align: center;
     justify-content: center;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     transition: all ease-out 0.3s;
 }
 
