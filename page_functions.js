@@ -561,7 +561,7 @@ function save_all_data(appdata_save = false, new_version = false) {
                 if (appdata_save == false) {
                     const vc = document.getElementById("version-select")
                     let options_len = vc.options.length
-
+                    
                     var opt = document.createElement("option");
                     opt.text = options_len;
                     vc.add(opt);
@@ -882,6 +882,7 @@ function clear_all() {
         vc.add(opt);
 
         document.getElementById("file_currently_open").innerHTML = "<i>New</i>";
+        document.getElementById("file_currently_open").title = "";
         // Get all form fields, marked with the form class
         form_fields = document.getElementsByClassName("form");
 
@@ -929,14 +930,14 @@ function open_dir() {
 // Handles the load file button, gets selected file, sends to Main loop
 function load_file(version = false, file_path = false) {
     let column_check = false;
-    if (file_path) { // Use this to sneakily check the current columns in a file
-        column_check = true;
+    if (version) { // Use this to sneakily check the current columns in a file
+        var file_path = document.getElementById("file_currently_open").title
         var value = file_path;
+
     } else { // Load the file from the selected file in the file list 
         var sel_list = document.getElementById("csv_file_list");
         var index_select = sel_list.options.selectedIndex;
         var value = sel_list.options[index_select].value;
-        console.log(value);
     }
     window.postMessage({ // Post load file message back to main thread
         type: 'select_file',
