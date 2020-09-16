@@ -752,9 +752,14 @@ function populate_all_data(data, version) {
         if (field.type === 'date') {
             const date = data[header_converter[field.id]];
             console.log(date)
-            const split_date = date.split('/');
-            const fmt_date = split_date[2] + '-' + ('0' + split_date[1]).slice(-2) + '-' + ('0' + split_date[0]).slice(-2)
-            field.value = fmt_date;
+            if (date.match(/\//)) {
+                const split_date = date.split('/');
+                const fmt_date = split_date[2] + '-' + ('0' + split_date[1]).slice(-2) + '-' + ('0' + split_date[0]).slice(-2)
+                field.value = fmt_date
+            } else {
+                field.value = date;
+            }
+            
         } else {
             field.value = data[header_converter[field.id]];
         }
