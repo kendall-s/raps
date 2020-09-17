@@ -73,24 +73,30 @@
             <div class="sidenav-control-button-div" id="file_menu_div">
                 <button class="sidebar_expander toggle-down pointerCursor" onclick="navOpening(this.id)"
                     id="file_menu_button" style="margin-bottom:2px">
-                    <img src="img/003-file.svg" width="25px" id="file_menu_button_image" style="transition: all ease-out 0.3s;">
-                    <p style="font-size: 11px; margin:0px; padding:0px; padding-top: 7px; color:rgb(219, 219, 219);">File</p>
+                    <img src="img/003-file.svg" width="25px" id="file_menu_button_image"
+                        style="transition: all ease-out 0.3s;">
+                    <p style="font-size: 11px; margin:0px; padding:0px; padding-top: 7px; color:rgb(219, 219, 219);">
+                        File</p>
                 </button>
             </div>
 
             <div class="sidenav-control-button-div" id="save_menu_div">
                 <button class="sidebar_expander toggle-down pointerCursor" onclick="navOpening(this.id)"
                     id="save_menu_button" style="margin-bottom:2px">
-                    <img src="img/005-floppy-disk-1.svg" width="25px" id="save_menu_button_image" style="transition: all ease-out 0.3s;">
-                    <p style="font-size: 11px; margin:0px; padding:0px; padding-top: 7px; color:rgb(219, 219, 219);">Save</p>
+                    <img src="img/005-floppy-disk-1.svg" width="25px" id="save_menu_button_image"
+                        style="transition: all ease-out 0.3s;">
+                    <p style="font-size: 11px; margin:0px; padding:0px; padding-top: 7px; color:rgb(219, 219, 219);">
+                        Save</p>
                 </button>
             </div>
 
             <div class="sidenav-control-button-div" id="search_menu_div">
                 <button class="sidebar_expander toggle-down pointerCursor" onclick="navOpening(this.id)"
                     id="search_menu_button" style="margin-bottom:2px">
-                    <img src="img/search.svg" width="25px" id="search_menu_button_image" style="transition: all ease-out 0.3s;">
-                    <p style="font-size: 11px; margin:0px; padding:0px; padding-top: 7px; color:rgb(219, 219, 219);">Find</p>
+                    <img src="img/search.svg" width="25px" id="search_menu_button_image"
+                        style="transition: all ease-out 0.3s;">
+                    <p style="font-size: 11px; margin:0px; padding:0px; padding-top: 7px; color:rgb(219, 219, 219);">
+                        Find</p>
                 </button>
             </div>
             <div style="margin-top: auto; margin-bottom: 40px; text-align: center;">
@@ -150,10 +156,20 @@
 
             <div
                 style="border: 1px solid rgb(202, 202, 202); border-radius: 0.2em; margin-left: 10px; margin-right:10px; margin-bottom: 20px; padding-bottom: 10px;">
-                <p style="margin-bottom:5px; margin-top: 5px; white-space: pre-wrap; text-align:center"> Save data as new version: </p>
+                <p style="margin-bottom:5px; margin-top: 5px; white-space: pre-wrap; text-align:center"> Save data as
+                    new version: </p>
                 <div style="display: flex; justify-content: center;">
                     <button class="save-sidenav-button pointerCursor" id="save-button" onclick="save_to_both_paths()">
                         New Version
+                    </button>
+                </div>
+            </div>
+
+            <div
+                style="border: 0px solid rgb(202, 202, 202); border-radius: 0.2em; margin-top: auto; margin-left: 10px; margin-right:10px; margin-bottom: 50px; padding-bottom: 10px;">
+                <div style="display: flex; justify-content: center;">
+                    <button class="save-sidenav-button pointerCursor" id="save-button" onclick="open_appdata_folder()">
+                        Open Backups
                     </button>
                 </div>
             </div>
@@ -311,7 +327,7 @@
                     </table>
                 </div>
             </div>
- 
+
             <div class="centered-div" style="margin-top: 30px;">
                 <div style="display: grid; grid-template-columns: 1fr;">
                     <div>

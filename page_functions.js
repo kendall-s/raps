@@ -7,7 +7,7 @@ var search_sidebar_open = false;
 
 const fs = require('fs')
 const csv = require('csv-parser')
-const { ipcRenderer } = require('electron')
+const { ipcRenderer, shell } = require('electron')
 const remote = require('electron').remote;
 const app = remote.app;
 
@@ -37,6 +37,7 @@ const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 // - open directory button handling
 // - load file button handling
 // - save file button handling
+// - open appdata folder
 
 // Misc Title Bar button handling functions
 
@@ -958,6 +959,15 @@ function save_data() {
         type: 'save_dialog'
     })
 }
+
+
+// Hnadles opening the appdata folder on the users machine
+function open_appdata_folder() {
+    const appdata_path = app.getPath("appData")
+    shell.openItem(appdata_path + "\\run_analysis_proc_sheet\\")
+}
+
+
 
 
 // Util functions related to handling the custom title bar of the page 

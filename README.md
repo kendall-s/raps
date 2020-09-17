@@ -1,5 +1,13 @@
 ## Run Analysis & Processing Sheet (RAPS)
 
+## Big TODOs:
+- Add tests 
+- Implement final version collation functionality
+- Implement open explorer to appdata backup folder
+- Implement search functionality within page
+- Clean up bookmark functionality bug where document shrinks
+- Refactor inline styles to classes when happy 
+
 #### The RAPS application is used for recording important information relating to a nutrient analysis.
 
 ### Features Include:
