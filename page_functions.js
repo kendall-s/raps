@@ -11,6 +11,8 @@ const { ipcRenderer, shell } = require('electron')
 const remote = require('electron').remote;
 const app = remote.app;
 
+const app_version = app.getVersion();
+
 const app_data_path = (app.getPath("appData")) + '\\run_analysis_proc_sheet\\';
 console.log(app_data_path);
 
@@ -26,6 +28,7 @@ const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 // - load form data
 // 
 //             Utility Functions
+// - set version in HTML
 // - version selection
 // - fetch all input form data 
 // - refresh file list
@@ -38,16 +41,19 @@ const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 // - load file button handling
 // - save file button handling
 // - open appdata folder
+// - collate final data file
 
 // Misc Title Bar button handling functions
 
 
-// ----------------------------------------------
+
+// ______________________________________________________________________________
+//
+//                              IPC Main loop functions
+// ______________________________________________________________________________
 
 
-// From Main Loop
-
-
+// CTRL+S save shortcut handler
 ipcRenderer.on('save_shortcut', (event, data) => {
     console.log("Keyboard shortcut");
     save_to_both_paths();
@@ -138,7 +144,13 @@ ipcRenderer.on('load_form_data', (event, data) => {
 });
 
 
-// Page utility functions
+// ______________________________________________________________________________
+//
+//                              Page utility functions
+// ______________________________________________________________________________
+
+// Set the app version in the HTML gui 
+document.getElementById('app-version').textContent = "v"+ app_version;
 
 // Function that handles the version selection feature, if the dropdown is changed, 
 // this triggers the file open to be reloaded to the selected version
@@ -315,6 +327,7 @@ function save_all_data(appdata_save = false, new_version = false) {
             { id: 'trace_concerns', title: 'Trace Concerns' },
 
             { id: 'nox_calibrants', title: 'NOx Calibrants' },
+            { id: 'nox_curve', title: 'NOx Curve Type'},
             { id: 'nox_calibrants_comment', title: 'NOx Calibrants Comment' },
             { id: 'nox_r_squared', title: 'NOx R Squared' },
             { id: 'nox_baseline', title: 'NOx Baseline' },
@@ -327,6 +340,7 @@ function save_all_data(appdata_save = false, new_version = false) {
             { id: 'nox_sus_samples', title: 'NOx Suspect Samples' },
 
             { id: 'phosphate_calibrants', title: 'Phosphate Calibrants' },
+            { id: 'phosphate_curve', title: 'Phosphate Curve Type'},
             { id: 'phosphate_calibrants_comment', title: 'Phosphate Calibrants Comment' },
             { id: 'phosphate_r_squared', title: 'Phosphate R Squared' },
             { id: 'phosphate_baseline', title: 'Phosphate Baseline' },
@@ -339,6 +353,7 @@ function save_all_data(appdata_save = false, new_version = false) {
             { id: 'phosphate_sus_samples', title: 'Phosphate Suspect Samples' },
 
             { id: 'silicate_calibrants', title: 'Silicate Calibrants' },
+            { id: 'silicate_curve', title: 'Silicate Curve Type'},
             { id: 'silicate_calibrants_comment', title: 'Silicate Calibrants Comment' },
             { id: 'silicate_r_squared', title: 'Silicate R Squared' },
             { id: 'silicate_baseline', title: 'Silicate Baseline' },
@@ -351,6 +366,7 @@ function save_all_data(appdata_save = false, new_version = false) {
             { id: 'silicate_sus_samples', title: 'Silicate Suspect Samples' },
 
             { id: 'ammonia_calibrants', title: 'Ammonia Calibrants' },
+            { id: 'ammonia_curve', title: 'Ammonia Curve Type'},
             { id: 'ammonia_calibrants_comment', title: 'Ammonia Calibrants Comment' },
             { id: 'ammonia_r_squared', title: 'Ammonia R Squared' },
             { id: 'ammonia_baseline', title: 'Ammonia Baseline' },
@@ -363,6 +379,7 @@ function save_all_data(appdata_save = false, new_version = false) {
             { id: 'ammonia_sus_samples', title: 'Ammonia Suspect Samples' },
 
             { id: 'nitrite_calibrants', title: 'Nitrite Calibrants' },
+            { id: 'nitrite_curve', title: 'Nitrite Curve Type'},
             { id: 'nitrite_calibrants_comment', title: 'Nitrite Calibrants Comment' },
             { id: 'nitrite_r_squared', title: 'Nitrite R Squared' },
             { id: 'nitrite_baseline', title: 'Nitrite Baseline' },
@@ -477,6 +494,7 @@ function save_all_data(appdata_save = false, new_version = false) {
                 track_concerns: form_data['trace_concerns'],
 
                 nox_calibrants: form_data['nox_calibrants'],
+                nox_curve: form_data['nox_curve'],
                 nox_calibrants_comment: form_data['nox_calibrants_comments'],
                 nox_r_squared: form_data['nox_r_squared'],
                 nox_baseline: form_data['nox_baseline'],
@@ -489,6 +507,7 @@ function save_all_data(appdata_save = false, new_version = false) {
                 nox_sus_samples: form_data['nox_suspect_samples'],
 
                 phosphate_calibrants: form_data['phosphate_calibrants'],
+                phosphate_curve: form_data['phosphate_curve'],
                 phosphate_calibrants_comment: form_data['phosphate_calibrants_comments'],
                 phosphate_r_squared: form_data['phosphate_r_squared'],
                 phosphate_baseline: form_data['phosphate_baseline'],
@@ -501,6 +520,7 @@ function save_all_data(appdata_save = false, new_version = false) {
                 phosphate_sus_samples: form_data['phosphate_suspect_samples'],
 
                 silicate_calibrants: form_data['silicate_calibrants'],
+                silicate_curve: form_data['silicate_curve'],
                 silicate_calibrants_comment: form_data['silicate_calibrants_comments'],
                 silicate_r_squared: form_data['silicate_r_squared'],
                 silicate_baseline: form_data['silicate_baseline'],
@@ -513,6 +533,7 @@ function save_all_data(appdata_save = false, new_version = false) {
                 silicate_sus_samples: form_data['silicate_suspect_samples'],
 
                 ammonia_calibrants: form_data['ammonia_calibrants'],
+                ammonia_curve: form_data['ammonia_curve'],
                 ammonia_calibrants_comment: form_data['ammonia_calibrants_comments'],
                 ammonia_r_squared: form_data['ammonia_r_squared'],
                 ammonia_baseline: form_data['ammonia_baseline'],
@@ -525,6 +546,7 @@ function save_all_data(appdata_save = false, new_version = false) {
                 ammonia_sus_samples: form_data['ammonia_suspect_samples'],
 
                 nitrite_calibrants: form_data['nitrite_calibrants'],
+                nitrite_curve: form_data['nitrite_curve'],
                 nitrite_calibrants_comment: form_data['nitrite_calibrants_comments'],
                 nitrite_r_squared: form_data['nitrite_r_squared'],
                 nitrite_baseline: form_data['nitrite_baseline'],
@@ -658,6 +680,7 @@ function populate_all_data(data, version) {
         trace_concerns: 'Trace Concerns',
 
         nox_calibrants: 'NOx Calibrants',
+        nox_curve: 'NOx Curve Type',
         nox_calibrants_comments: 'NOx Calibrants Comment',
         nox_r_squared: 'NOx R Squared',
         nox_baseline: 'NOx Baseline',
@@ -670,6 +693,7 @@ function populate_all_data(data, version) {
         nox_suspect_samples: 'NOx Suspect Samples',
 
         phosphate_calibrants: 'Phosphate Calibrants',
+        phosphate_curve: 'Phosphate Curve Type',
         phosphate_calibrants_comments: 'Phosphate Calibrants Comment',
         phosphate_r_squared: 'Phosphate R Squared',
         phosphate_baseline: 'Phosphate Baseline',
@@ -682,6 +706,7 @@ function populate_all_data(data, version) {
         phosphate_suspect_samples: 'Phosphate Suspect Samples',
 
         silicate_calibrants: 'Silicate Calibrants',
+        silicate_curve: 'Silicate Curve Type',
         silicate_calibrants_comments: 'Silicate Calibrants Comment',
         silicate_r_squared: 'Silicate R Squared',
         silicate_baseline: 'Silicate Baseline',
@@ -694,6 +719,7 @@ function populate_all_data(data, version) {
         silicate_suspect_samples: 'Silicate Suspect Samples',
 
         ammonia_calibrants: 'Ammonia Calibrants',
+        ammonia_curve: 'Ammonia Curve Type',
         ammonia_calibrants_comments: 'Ammonia Calibrants Comment',
         ammonia_r_squared: 'Ammonia R Squared',
         ammonia_baseline: 'Ammonia Baseline',
@@ -706,6 +732,7 @@ function populate_all_data(data, version) {
         ammonia_suspect_samples: 'Ammonia Suspect Samples',
 
         nitrite_calibrants: 'Nitrite Calibrants',
+        nitrite_curve: 'Nitrite Curve Type',
         nitrite_calibrants_comments: 'Nitrite Calibrants Comment',
         nitrite_r_squared: 'Nitrite R Squared',
         nitrite_baseline: 'Nitrite Baseline',
@@ -767,11 +794,8 @@ function populate_all_data(data, version) {
     }
 }
 
-
 // Used to control the side nav bars opening and closing, need to clean up - code is extrememly bad 
 // and simplistic in acheiving the effect of only one side nav open at a time
-var upClass = 'toggle-up';
-var sidenav_selected_class = 'sidenav_selected';
 function navOpening(button_id) {
     console.log(button_id);
 
@@ -780,30 +804,30 @@ function navOpening(button_id) {
             document.getElementById("save_sidenav").style.width = "0";
             document.getElementById("main_doc").style.marginLeft = "0";
             save_sidebar_open = false
-            document.getElementById("save_menu_button_image").classList.toggle(upClass);
-            document.getElementById("save_menu_div").classList.toggle(sidenav_selected_class);
+            document.getElementById("save_menu_button_image").classList.toggle('toggle-up');
+            document.getElementById("save_menu_div").classList.toggle('sidenav_selected');
             document.getElementById("save_menu_button_image").src = "img/005-floppy-disk-1.svg"
 
         } else {
             document.getElementById("save_sidenav").style.width = "160px";
             document.getElementById("main_doc").style.marginLeft = "160px";
             save_sidebar_open = true
-            document.getElementById("save_menu_button_image").classList.toggle(upClass);
-            document.getElementById("save_menu_div").classList.toggle(sidenav_selected_class);
+            document.getElementById("save_menu_button_image").classList.toggle('toggle-up');
+            document.getElementById("save_menu_div").classList.toggle('sidenav_selected');
             document.getElementById("save_menu_button_image").src = "img/008-close.svg"
 
             if (file_sidebar_open == true) {
                 file_sidebar_open = false
                 document.getElementById("file_sidenav").style.width = "0";
-                document.getElementById("file_menu_button_image").classList.toggle(upClass);
-                document.getElementById("file_menu_div").classList.toggle(sidenav_selected_class);
+                document.getElementById("file_menu_button_image").classList.toggle('toggle-up');
+                document.getElementById("file_menu_div").classList.toggle('sidenav_selected');
                 document.getElementById("file_menu_button_image").src = "img/003-file.svg"
             }
             if (search_sidebar_open == true) {
                 search_sidebar_open = false
                 document.getElementById("search_sidenav").style.width = "0";
-                document.getElementById("search_menu_button_image").classList.toggle(upClass);
-                document.getElementById("search_menu_div").classList.toggle(sidenav_selected_class);
+                document.getElementById("search_menu_button_image").classList.toggle('toggle-up');
+                document.getElementById("search_menu_div").classList.toggle('sidenav_selected');
                 document.getElementById("search_menu_button_image").src = "img/search.svg"
             }
         }
@@ -814,28 +838,28 @@ function navOpening(button_id) {
             document.getElementById("file_sidenav").style.width = "0";
             document.getElementById("main_doc").style.marginLeft = "0";
             file_sidebar_open = false
-            document.getElementById("file_menu_button_image").classList.toggle(upClass);
-            document.getElementById("file_menu_div").classList.toggle(sidenav_selected_class);
+            document.getElementById("file_menu_button_image").classList.toggle('toggle-up');
+            document.getElementById("file_menu_div").classList.toggle('sidenav_selected');
             document.getElementById("file_menu_button_image").src = "img/003-file.svg"
         } else {
             document.getElementById("file_sidenav").style.width = "160px";
             document.getElementById("main_doc").style.marginLeft = "160px";
             file_sidebar_open = true
-            document.getElementById("file_menu_button_image").classList.toggle(upClass);
-            document.getElementById("file_menu_div").classList.toggle(sidenav_selected_class);
+            document.getElementById("file_menu_button_image").classList.toggle('toggle-up');
+            document.getElementById("file_menu_div").classList.toggle('sidenav_selected');
             document.getElementById("file_menu_button_image").src = "img/008-close.svg"
             if (save_sidebar_open == true) {
                 save_sidebar_open = false
                 document.getElementById("save_sidenav").style.width = "0";
-                document.getElementById("save_menu_button_image").classList.toggle(upClass);
-                document.getElementById("save_menu_div").classList.toggle(sidenav_selected_class);
+                document.getElementById("save_menu_button_image").classList.toggle('toggle-up');
+                document.getElementById("save_menu_div").classList.toggle('sidenav_selected');
                 document.getElementById("save_menu_button_image").src = "img/005-floppy-disk-1.svg"
             }
             if (search_sidebar_open == true) {
                 search_sidebar_open = false
                 document.getElementById("search_sidenav").style.width = "0";
-                document.getElementById("search_menu_button_image").classList.toggle(upClass);
-                document.getElementById("search_menu_div").classList.toggle(sidenav_selected_class);
+                document.getElementById("search_menu_button_image").classList.toggle('toggle-up');
+                document.getElementById("search_menu_div").classList.toggle('sidenav_selected');
                 document.getElementById("search_menu_button_image").src = "img/search.svg"
             }
         }
@@ -846,28 +870,28 @@ function navOpening(button_id) {
             document.getElementById("search_sidenav").style.width = "0";
             document.getElementById("main_doc").style.marginLeft = "0";
             search_sidebar_open = false
-            document.getElementById("search_menu_button_image").classList.toggle(upClass);
-            document.getElementById("search_menu_div").classList.toggle(sidenav_selected_class);
+            document.getElementById("search_menu_button_image").classList.toggle('toggle-up');
+            document.getElementById("search_menu_div").classList.toggle('sidenav_selected');
             document.getElementById("search_menu_button_image").src = "img/search.svg"
         } else {
             document.getElementById("search_sidenav").style.width = "160px";
             document.getElementById("main_doc").style.marginLeft = "160px";
             search_sidebar_open = true
-            document.getElementById("search_menu_button_image").classList.toggle(upClass);
-            document.getElementById("search_menu_div").classList.toggle(sidenav_selected_class);
+            document.getElementById("search_menu_button_image").classList.toggle('toggle-up');
+            document.getElementById("search_menu_div").classList.toggle('sidenav_selected');
             document.getElementById("search_menu_button_image").src = "img/008-close.svg"
             if (save_sidebar_open == true) {
                 save_sidebar_open = false
                 document.getElementById("save_sidenav").style.width = "0";
-                document.getElementById("save_menu_button_image").classList.toggle(upClass);
-                document.getElementById("save_menu_div").classList.toggle(sidenav_selected_class);
+                document.getElementById("save_menu_button_image").classList.toggle('toggle-up');
+                document.getElementById("save_menu_div").classList.toggle('sidenav_selected');
                 document.getElementById("save_menu_button_image").src = "img/005-floppy-disk-1.svg"
             }
             if (file_sidebar_open == true) {
                 file_sidebar_open = false
                 document.getElementById("file_sidenav").style.width = "0";
-                document.getElementById("file_menu_button_image").classList.toggle(upClass);
-                document.getElementById("file_menu_div").classList.toggle(sidenav_selected_class);
+                document.getElementById("file_menu_button_image").classList.toggle('toggle-up');
+                document.getElementById("file_menu_div").classList.toggle('sidenav_selected');
                 document.getElementById("file_menu_button_image").src = "img/003-file.svg"
             }
         }
@@ -875,8 +899,8 @@ function navOpening(button_id) {
 
 }
 
-var clear_count = 0;
 // Clears all fields that have the form class 
+var clear_count = 0;
 function clear_all() {
     clear_count = clear_count + 1;
 
@@ -923,19 +947,10 @@ function check_all() {
     }
 }
 
-
-
-// Handles the opening directory button, just sends message to Main loop
-function open_dir() {
-    console.log('Clicked')
-    window.postMessage({
-        type: 'select_dir'
-    })
-}
-
 // Handles the load file button, gets selected file, sends to Main loop
 function load_file(version = false, file_path = false) {
     let column_check = false;
+    // If the user changes the file by using the version control dropdown, else they are loading a whole separate file
     if (version) { // Use this to sneakily check the current columns in a file
         var file_path = document.getElementById("file_currently_open").title
         var value = file_path;
@@ -953,13 +968,20 @@ function load_file(version = false, file_path = false) {
     })
 }
 
+// Handles the opening directory button, just sends message to Main loop
+function open_dir() {
+    console.log('Clicked')
+    window.postMessage({
+        type: 'select_dir'
+    })
+}
+
 // Handles the save data button 
 function save_data() {
     window.postMessage({
         type: 'save_dialog'
     })
 }
-
 
 // Hnadles opening the appdata folder on the users machine
 function open_appdata_folder() {
@@ -968,9 +990,23 @@ function open_appdata_folder() {
 }
 
 
+function collate_final() {
+
+}
 
 
-// Util functions related to handling the custom title bar of the page 
+
+
+
+
+
+
+
+// ______________________________________________________________________________
+//
+//                           Title bar utility functions
+// ______________________________________________________________________________
+
 
 const win = remote.getCurrentWindow(); /* Note this is different to the
 html global `window` variable */

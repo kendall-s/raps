@@ -3,7 +3,7 @@
 ## Big TODOs:
 - Add tests 
 - Implement final version collation functionality
-- Implement open explorer to appdata backup folder
+- ~~Implement open explorer to appdata backup folder~~ (18/09/2020)
 - Implement search functionality within page
 - Clean up bookmark functionality bug where document shrinks
 - Refactor inline styles to classes when happy 

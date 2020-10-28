@@ -101,7 +101,8 @@
             </div>
             <div style="margin-top: auto; margin-bottom: 40px; text-align: center;">
                 <p style="font-size: 11px; margin:0px; padding:0px; color:rgb(57, 57, 57)">Made by Ken</p>
-                <p style="font-size: 11px; margin:0px; padding:0px; color:rgb(180, 179, 182)">v.0.0.27</p>
+                <p id="app-version" style="font-size: 11px; margin:0px; padding:0px; color:rgb(180, 179, 182)">v.0.0.27
+                </p>
             </div>
         </div>
 
@@ -135,7 +136,7 @@
                     onclick="load_file()"> Load File</button>
             </div>
             <div style="display: flex; justify-content: center; padding: 5px 0px 5px 0px; margin-bottom: 60px;">
-                <button class="sidenav-button pointerCursor"
+                <button class="sidenav-button pointerCursor" onclick="collate_final()"
                     style="display: flex; justify-content: center; padding: 2px 10px 2px 10px;">Collate Final</button>
             </div>
             <p hidden id="selected_directory"></p>
@@ -156,8 +157,7 @@
 
             <div
                 style="border: 1px solid rgb(202, 202, 202); border-radius: 0.2em; margin-left: 10px; margin-right:10px; margin-bottom: 20px; padding-bottom: 10px;">
-                <p style="margin-bottom:5px; margin-top: 5px; white-space: pre-wrap; text-align:center"> Save data as
-                    new version: </p>
+                <p style="margin-bottom:5px; margin-top: 5px; white-space: pre-wrap; text-align:center"> Save data as new version: </p>
                 <div style="display: flex; justify-content: center;">
                     <button class="save-sidenav-button pointerCursor" id="save-button" onclick="save_to_both_paths()">
                         New Version
@@ -165,8 +165,7 @@
                 </div>
             </div>
 
-            <div
-                style="border: 0px solid rgb(202, 202, 202); border-radius: 0.2em; margin-top: auto; margin-left: 10px; margin-right:10px; margin-bottom: 50px; padding-bottom: 10px;">
+            <div style="margin-top: auto; margin-left: 10px; margin-right:10px; margin-bottom: 50px; padding-bottom: 10px;">
                 <div style="display: flex; justify-content: center;">
                     <button class="save-sidenav-button pointerCursor" id="save-button" onclick="open_appdata_folder()">
                         Open Backups
@@ -713,6 +712,17 @@
                                 <option>Bad</option>
                             </select>
                         </div>
+
+                        <div style=" display:flex; grid-column: 1 / span 1; justify-content: left;">
+                            <p>Curve Type:</p>
+                        </div>
+                        <div style=" display:flex; grid-column: 2 / span 1; justify-content: left;">
+                            <select class="form" id="nox_curve">
+                                <option>Linear</option>
+                                <option>Quadratic</option>
+                            </select>
+                        </div>
+
                         <div style="display:flex; justify-content: center; grid-column: 1 / span 3;">
                             <textarea class="form" rows=4 cols=45 placeholder="Calibrant comments"
                                 id="nox_calibrants_comments"></textarea>
@@ -870,6 +880,17 @@
                                 <option>Bad</option>
                             </select>
                         </div>
+
+                        <div style=" display:flex; grid-column: 1 / span 1; justify-content: left;">
+                            <p>Curve Type:</p>
+                        </div>
+                        <div style=" display:flex; grid-column: 2 / span 1; justify-content: left;">
+                            <select class="form" id="phosphate_curve">
+                                <option>Linear</option>
+                                <option>Quadratic</option>
+                            </select>
+                        </div>
+
                         <div style="display:flex; justify-content: center; grid-column: 1 / span 3;">
                             <textarea class="form" rows=4 cols=45 placeholder="Calibrant comments"
                                 id="phosphate_calibrants_comments"></textarea>
@@ -936,7 +957,7 @@
                         </div>
                         <div>
                             <p>
-                                <0.06</p> </div> <div>
+                                <0.02</p> </div> <div>
                                     <select class="form" id="phosphate_duplicates">
                                         <option>Pass</option>
                                         <option>Fail</option>
@@ -1019,6 +1040,18 @@
                                 <option>Bad</option>
                             </select>
                         </div>
+
+                        <div style=" display:flex; grid-column: 1 / span 1; justify-content: left;">
+                            <p>Curve Type:</p>
+                        </div>
+                        <div style=" display:flex; grid-column: 2 / span 1; justify-content: left;">
+                            <select class="form" id="silicate_curve">
+                                <option>Linear</option>
+                                <option>Quadratic</option>
+                            </select>
+                        </div>
+
+
                         <div style="display:flex; justify-content: center; grid-column: 1 / span 3;">
                             <textarea class="form" rows=4 cols=45 placeholder="Calibrant comments"
                                 id="silicate_calibrants_comments"></textarea>
@@ -1071,7 +1104,7 @@
                             <p>MDL</p>
                         </div>
                         <div>
-                            <p>0.02</p>
+                            <p>0.2</p>
                         </div>
                         <div>
                             <select class="form" id="silicate_mdl">
@@ -1085,7 +1118,7 @@
                         </div>
                         <div>
                             <p>
-                                <0.06</p> </div> <div>
+                                <0.2</p> </div> <div>
                                     <select class="form" id="silicate_duplicates">
                                         <option>Pass</option>
                                         <option>Fail</option>
@@ -1168,6 +1201,17 @@
                                 <option>Bad</option>
                             </select>
                         </div>
+
+                        <div style=" display:flex; grid-column: 1 / span 1; justify-content: left;">
+                            <p>Curve Type:</p>
+                        </div>
+                        <div style=" display:flex; grid-column: 2 / span 1; justify-content: left;">
+                            <select class="form" id="ammonia_curve">
+                                <option>Linear</option>
+                                <option>Quadratic</option>
+                            </select>
+                        </div>
+
                         <div style="display:flex; justify-content: center; grid-column: 1 / span 3;">
                             <textarea class="form" rows=4 cols=45 placeholder="Calibrant comments"
                                 id="ammonia_calibrants_comments"></textarea>
@@ -1197,7 +1241,7 @@
                         </div>
                         <div>
                             <p>
-                                <1.5%</p> </div> <div>
+                                <2.5%</p> </div> <div>
                                     <select class="form" id="ammonia_baseline">
                                         <option>Pass</option>
                                         <option>Fail</option>
@@ -1209,7 +1253,7 @@
                         </div>
                         <div>
                             <p>
-                                <1.5%</p> </div> <div>
+                                <2.5%</p> </div> <div>
                                     <select class="form" id="ammonia_drift">
                                         <option>Pass</option>
                                         <option>Fail</option>
@@ -1234,7 +1278,7 @@
                         </div>
                         <div>
                             <p>
-                                <0.06</p> </div> <div>
+                                <0.02</p> </div> <div>
                                     <select class="form" id="ammonia_duplicates">
                                         <option>Pass</option>
                                         <option>Fail</option>
@@ -1318,6 +1362,17 @@
                                 <option>Bad</option>
                             </select>
                         </div>
+
+                        <div style=" display:flex; grid-column: 1 / span 1; justify-content: left;">
+                            <p>Curve Type:</p>
+                        </div>
+                        <div style=" display:flex; grid-column: 2 / span 1; justify-content: left;">
+                            <select class="form" id="nitrite_curve">
+                                <option>Linear</option>
+                                <option>Quadratic</option>
+                            </select>
+                        </div>
+
                         <div style="display:flex; justify-content: center; grid-column: 1 / span 3;">
                             <textarea class="form" rows=4 cols=45 placeholder="Calibrant comments"
                                 id="nitrite_calibrants_comments"></textarea>
@@ -1384,7 +1439,7 @@
                         </div>
                         <div>
                             <p>
-                                <0.06</p> </div> <div>
+                                <0.02</p> </div> <div>
                                     <select class="form" id="nitrite_duplicates">
                                         <option>Pass</option>
                                         <option>Fail</option>

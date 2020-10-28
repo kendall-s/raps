@@ -83,7 +83,6 @@ try {
 // Event for handling when a user wants to open a directory. First gives folder opening dialog, 
 // then puts that path into get_files_in_dir function
 ipcMain.on('select_dir', async(event, arg) => {
-  console.log(event);
   const result = await dialog.showOpenDialog({ 
     properties: ['openDirectory']
   }).then(result => {
