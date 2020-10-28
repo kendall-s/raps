@@ -39,6 +39,7 @@ const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 // - clear all input fields
 // - open directory button handling
 // - load file button handling
+// - load file from double click
 // - save file button handling
 // - open appdata folder
 // - collate final data file
