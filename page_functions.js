@@ -773,7 +773,8 @@ function populate_all_data(data, version) {
         // Format correctly so that the checkboxes are correctly fixed 
         if (field.type === 'checkbox') {
             let check_state = data[header_converter[field.id]];
-            if (check_state == "TRUE") {
+            console.log(check_state)
+            if (check_state == "true") {
                 field.checked = true;
             }
         }

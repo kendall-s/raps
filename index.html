@@ -44,7 +44,7 @@
         </div>
     </header>
     <!-- Main document -->
-    <div class="main">
+    <div class="main" style="padding-right: 0;">
         <!-- Top Nav -->
         <div class="topnav">
             <p style="text-align: center; width: 100px;"> <b>File Open: </b></p>
@@ -114,9 +114,9 @@
                 <button class="sidenav-button pointerCursor" style="display:flex; justify-content: center;"
                     onclick="open_dir()"> Browse</button>
             </div>
-            <div style="display:flex; justify-content: center;">
+            <div style="display:flex; justify-content: center; height: 100%;">
                 <select id="csv_file_list" class="sidenav-select" size="27" ondblclick="load_file()"
-                    style="width: 150px; justify-content: center; display: flex;">
+                    style="width: 150px; justify-content: center; display: flex; height: 100%;">
                     
                     <option>
                         👆👆
@@ -139,7 +139,7 @@
                 <button class="sidenav-button pointerCursor" style="display:flex; justify-content: center;"
                     onclick="load_file()"> Load File</button>
             </div>
-            <div style="display: flex; justify-content: center; padding: 5px 0px 5px 0px; margin-bottom: 60px;">
+            <div style="display: flex; justify-content: center; padding: 5px 0px 5px 0px; margin-bottom: 80px; margin-top: auto;">
                 <button class="sidenav-button pointerCursor" onclick="collate_final()"
                     style="display: flex; justify-content: center; padding: 2px 10px 2px 10px;">Collate Final</button>
             </div>
@@ -220,7 +220,7 @@
         </div>
 
         <!-- Main Form Document contains all the fillable fields that get saved -->
-        <div class="main_doc" id="main_doc" style="overflow-y: scroll; margin-bottom: 100px;">
+        <div class="main_doc" id="main_doc" style="overflow-y: scroll; margin-top:60px;">
             <div class="header-div">
                 <div
                     style="padding-top: 50px; padding-bottom: 20px; display: flex; justify-content: center; text-align: center;">
