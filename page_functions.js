@@ -993,8 +993,11 @@ function open_appdata_folder() {
 
 
 function collate_final() {
-
-}
+    var directory_path = document.getElementById("selected_directory").text
+    if (directory_path) {
+        
+    }
+}   
 
 
 

@@ -143,7 +143,7 @@ ipcMain.on('file_loaded_success', async(event, arg) => {
   const disp = await dialog.showMessageBox({
     type: "info",
     title: "CSV Loaded Successfully",
-    message: "The data in the csv was read in and successfully loaded 😃"
+    message: "The data in the csv was read in and successfully loaded 😀"
   })
 })
 
@@ -174,8 +174,12 @@ function get_files_in_dir(directory_path) {
     files.forEach(function (file) {
       if (path.extname(file).toLowerCase() === '.csv'){
         csv_files_obj.push({'name': file, 'path': path.join(directory_path, file)})
+        
+        csv_files_obj.sort(compare);
+
         csv_files_full_path.push(path.join(directory_path, file));
         csv_files_name.push(file);
+
       }
     })
     var context = {"dir_path": directory_path, "csv_files": csv_files_obj}
@@ -186,4 +190,16 @@ function get_files_in_dir(directory_path) {
 // Sends the object containing all the csv files in a directory back to the rendered page
 function populate_list(csv_files) {
   win.webContents.send('populate_list', csv_files);
+}
+
+
+// Util compare function for csv files, could have imported an NPM package but I didn't 🤪
+function compare( a, b ) {
+  if ( a.name < b.name ){
+    return 1;
+  }
+  if ( a.name > b.name ){
+    return -1;
+  }
+  return 0;
 }
