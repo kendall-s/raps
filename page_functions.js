@@ -398,15 +398,15 @@ function save_all_data(appdata_save = false, new_version = false) {
             { id: 'review_comment', title: 'Review Comment' },
 
             { id: 'samples_1', title: 'Samples 1' },
-            { id: 'samples_cond_1', title: 'Samples 1 Condition' },
+            { id: 'samples_condition_1', title: 'Samples 1 Condition' },
             { id: 'samples_comment_1', title: 'Samples 1 Comment' },
 
             { id: 'samples_2', title: 'Samples 2' },
-            { id: 'samples_cond_2', title: 'Samples 2 Condition' },
+            { id: 'samples_condition_2', title: 'Samples 2 Condition' },
             { id: 'samples_comment_2', title: 'Samples 2 Comment' },
 
             { id: 'samples_3', title: 'Samples 3' },
-            { id: 'samples_cond_3', title: 'Samples 3 Condition' },
+            { id: 'samples_condition_3', title: 'Samples 3 Condition' },
             { id: 'samples_comment_3', title: 'Samples 3 Comment' }
         ]
 
@@ -492,7 +492,7 @@ function save_all_data(appdata_save = false, new_version = false) {
 
                 rack_used: form_data['rack_file_used'],
                 trace_checked: form_data['trace_checked'],
-                track_concerns: form_data['trace_concerns'],
+                trace_concerns: form_data['trace_concerns'],
 
                 nox_calibrants: form_data['nox_calibrants'],
                 nox_curve: form_data['nox_curve'],
@@ -768,7 +768,7 @@ function populate_all_data(data, version) {
 
         field = form_fields[form_field];
         console.log(field.id);
-        console.log(header_converter[field.id]);
+        console.log(data[header_converter[field.id]]);
 
         // Format correctly so that the checkboxes are correctly fixed 
         if (field.type === 'checkbox') {
@@ -995,7 +995,7 @@ function open_appdata_folder() {
 function collate_final() {
     var directory_path = document.getElementById("selected_directory").text
     if (directory_path) {
-        
+
     }
 }   
 
