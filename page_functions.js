@@ -312,11 +312,11 @@ function populate_all_data(data, version) {
 
         field = form_fields[form_field];
         console.log(field.id);
-        console.log(data[csv_headers.header_converter[field.id]]);
+        console.log(data[header_converter[field.id]]);
 
         // Format correctly so that the checkboxes are correctly fixed 
         if (field.type === 'checkbox') {
-            let check_state = data[csv_headers.header_converter[field.id]];
+            let check_state = data[header_converter[field.id]];
             console.log(check_state)
             if (check_state == "true") {
                 field.checked = true;
@@ -324,7 +324,7 @@ function populate_all_data(data, version) {
         }
 
         if (field.type === 'date') {
-            const date = data[csv_headers.header_converter[field.id]];
+            const date = data[header_converter[field.id]];
             console.log(date)
             if (date.match(/\//)) {
                 const split_date = date.split('/');
@@ -335,7 +335,7 @@ function populate_all_data(data, version) {
             }
 
         } else {
-            field.value = data[csv_headers.header_converter[field.id]];
+            field.value = data[header_converter[field.id]];
         }
     }
 }
