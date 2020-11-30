@@ -1,17 +1,18 @@
 const { app } = require('electron')
-const { BrowserWindow } = require('electron') 
+const { BrowserWindow } = require('electron')
 const { ipcMain } = require('electron')
 const { dialog } = require('electron')
 const fs = require('fs')
 const path = require('path')
 const EventEmitter = require('events')
 const csv = require('csv-parser')
+const { get_files_in_dir } = require(path.join(__dirname, './js/utils.js'));
 
 const electronLocalshortcut = require('electron-localshortcut');
 
 var win = null;
 
-function createWindow () {
+function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
     width: 1400,
@@ -32,7 +33,7 @@ function createWindow () {
   win.removeMenu();
 
   electronLocalshortcut.register(win, ['Ctrl+S'], () => {
-      win.webContents.send('save_shortcut', '');
+    win.webContents.send('save_shortcut', '');
   });
   electronLocalshortcut.register(win, ['F12'], () => {
     win.webContents.toggleDevTools()
@@ -82,23 +83,25 @@ try {
 
 // Event for handling when a user wants to open a directory. First gives folder opening dialog, 
 // then puts that path into get_files_in_dir function
-ipcMain.on('select_dir', async(event, arg) => {
-  const result = await dialog.showOpenDialog({ 
+ipcMain.on('select_dir', async (event, arg) => {
+  const result = await dialog.showOpenDialog({
     properties: ['openDirectory']
   }).then(result => {
-    get_files_in_dir(result.filePaths[0]);
+    let csv_files = get_files_in_dir(result.filePaths[0]);
+    populate_list(csv_files);
   }).catch(err => {
     console.log(err);
   })
 })
 
 // Event handling for when user wants to Save File As, displays the save path dialog then returns that result back to the render page
-ipcMain.on('save_dialog', async(event, arg) => {
+ipcMain.on('save_dialog', async (event, arg) => {
   let option = {
     title: "Save File As",
-    filters: [{name: 'Comma Separated Values', extensions: ['csv']}]}
+    filters: [{ name: 'Comma Separated Values', extensions: ['csv'] }]
+  }
 
-  const result = await dialog.showSaveDialog(options=option).then(result => {
+  const result = await dialog.showSaveDialog(options = option).then(result => {
     win.webContents.send('save_path', result);
   }).catch(err => {
     console.log(err);
@@ -107,39 +110,22 @@ ipcMain.on('save_dialog', async(event, arg) => {
 
 // Event handling for the refresh list function, which is needed for when a user saves a new file, 
 // the files list is then updated to show the new file
-ipcMain.on('refresh_list', async(event, arg) => {
+ipcMain.on('refresh_list', async (event, arg) => {
   dir = arg["dir_path"];
-  get_files_in_dir(dir);
+  let csv_files = get_files_in_dir(dir);
+  populate_list(csv_files);
 })
 
 // When the user selects a file from the file list, this function reads it in and then
 // sends the contents back to the rendered page as an object
-ipcMain.on('select_file', async(event, data) => {
+ipcMain.on('select_file', async (event, data) => {
   var file_to_open = data.file;
   console.log(file_to_open);
-  var csv_array = [];
-
-  fs.createReadStream(file_to_open)
-  .pipe(csv())
-  .on('data', (row) => {
-    //console.log(row);
-    csv_array.push(row);
-  })
-  .on('end', () => {
-    console.log('CSV file successfully processed');
-    context = {"filePath": file_to_open, "csv_data": csv_array, "version": data.version};
-    if (data.column_check) { // Sneaky little read to check the number of columns in the CSV, redirect file load to different function
-      context = {"cols": csv_array[0].length}
-      win.webContents.send('number_of_csv_cols', context);
-    } else {
-      win.webContents.send('load_form_data', context);
-    }
-  });
+  read_csv_file(file_to_open, version=data.version, column_check=data.column_check);
 })
 
-
 // Message box for saying a CSV file was successfully read in
-ipcMain.on('file_loaded_success', async(event, arg) => {
+ipcMain.on('file_loaded_success', async (event, arg) => {
   const disp = await dialog.showMessageBox({
     type: "info",
     title: "CSV Loaded Successfully",
@@ -148,7 +134,7 @@ ipcMain.on('file_loaded_success', async(event, arg) => {
 })
 
 // Message box for saying a CSV file was saved correctly
-ipcMain.on('new_version_saved', async(event, arg) => {
+ipcMain.on('new_version_saved', async (event, arg) => {
   const disp = await dialog.showMessageBox({
     type: "info",
     title: "New version successfully saved",
@@ -156,50 +142,41 @@ ipcMain.on('new_version_saved', async(event, arg) => {
   })
 })
 
+// Message box for saying the collated file was created successfully
+ipcMain.on('new_collated_saved', async (event, arg) => {
+  const disp = await dialog.showMessageBox({
+    type: "info",
+    title: "New collated file successfully saved",
+    message: "The collated file was successfully created 😃"
+  })
+})
+
+
 
 // Helper functions
-
-// The function which handles getting all CSV files in a directory. They are ordered by mod time
-function get_files_in_dir(directory_path) {
-  fs.readdir(directory_path, function(err, files) {
-    if (err) {
-      return console.log('Unable to scan directory: ' + err);
-    }
-    // target_files = files.filter(function(file) {
-      // console.log(path.extname(file).toLowerCase() === '.csv');
-    // })
-    csv_files_full_path = []
-    csv_files_name = []
-    csv_files_obj = []
-    files.forEach(function (file) {
-      if (path.extname(file).toLowerCase() === '.csv'){
-        csv_files_obj.push({'name': file, 'path': path.join(directory_path, file)})
-        
-        csv_files_obj.sort(compare);
-
-        csv_files_full_path.push(path.join(directory_path, file));
-        csv_files_name.push(file);
-
-      }
-    })
-    var context = {"dir_path": directory_path, "csv_files": csv_files_obj}
-    populate_list(context);
-  })
-}
 
 // Sends the object containing all the csv files in a directory back to the rendered page
 function populate_list(csv_files) {
   win.webContents.send('populate_list', csv_files);
 }
 
+function read_csv_file(file_to_open, version=0, column_check=0) {
+  var csv_array = [];
 
-// Util compare function for csv files, could have imported an NPM package but I didn't 🤪
-function compare( a, b ) {
-  if ( a.name < b.name ){
-    return 1;
-  }
-  if ( a.name > b.name ){
-    return -1;
-  }
-  return 0;
+  fs.createReadStream(file_to_open)
+    .pipe(csv())
+    .on('data', (row) => {
+      //console.log(row);
+      csv_array.push(row);
+    })
+    .on('end', () => {
+      console.log('CSV file successfully processed');
+      context = { "filePath": file_to_open, "csv_data": csv_array, "version": version };
+      if (column_check) { // Sneaky little read to check the number of columns in the CSV, redirect file load to different function
+        context = { "cols": csv_array[0].length }
+        win.webContents.send('number_of_csv_cols', context);
+      } else {
+        win.webContents.send('load_form_data', context);
+      }
+    });
 }

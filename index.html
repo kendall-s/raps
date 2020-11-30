@@ -430,11 +430,11 @@
                         <div
                             style="display: grid; grid-template-columns: 0.2fr 1fr; max-width: 220px; align-items: center; gap: 5px 5px;">
                             <input class="form" type="checkbox" id='rmns_1'>
-                            <input class="form" type="text" for="rmns_1" id="rmns_1_used" style="max-width: 140px;">
+                            <input class="form" type="text" for="rmns_1" id="rmns_1_used" num="1" style="max-width: 140px;" onchange="update_rmns(this)">
                             <input class="form" type="checkbox" id='rmns_2'>
-                            <input class="form" type="text" for="rmns_2" id="rmns_2_used" style="max-width: 140px;">
+                            <input class="form" type="text" for="rmns_2" id="rmns_2_used" num="2" style="max-width: 140px;" onchange="update_rmns(this)">
                             <input class="form" type="checkbox" id='rmns_3'>
-                            <input class="form" type="text" for="rmns_3" id="rmns_3_used" style="max-width: 140px;">
+                            <input class="form" type="text" for="rmns_3" id="rmns_3_used" num="3" style="max-width: 140px;" onchange="update_rmns(this)">
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; flex-direction: column; justify-content: center;">
@@ -816,7 +816,7 @@
                             <p>RMNS</p>
                         </div>
                         <div>
-                            <input class="rmns_1" type="text" style="width:90px;">
+                            <input readonly class="rmns_1" type="text" style="width:90px;">
                         </div>
                         <div>
                             <select class="form" id="nox_rmns_1">
@@ -832,7 +832,7 @@
                             <p>RMNS</p>
                         </div>
                         <div>
-                            <input class="rmns_2" type="text" style="width:90px;">
+                            <input readonly class="rmns_2" type="text" style="width:90px;">
                         </div>
                         <div>
                             <select class="form" id="nox_rmns_2">
@@ -848,7 +848,7 @@
                             <p>RMNS</p>
                         </div>
                         <div>
-                            <input class="rmns_3" type="text" style="width:90px;">
+                            <input readonly class="rmns_3" type="text" style="width:90px;">
                         </div>
                         <div>
                             <select class="form" id="nox_rmns_3">
@@ -976,7 +976,7 @@
                             <p>RMNS</p>
                         </div>
                         <div>
-                            <input class="rmns_1" type="text" style="width:90px;">
+                            <input readonly class="rmns_1" type="text" style="width:90px;">
                         </div>
                         <div>
                             <select class="form" id="phosphate_rmns_1">
@@ -992,7 +992,7 @@
                             <p>RMNS</p>
                         </div>
                         <div>
-                            <input class="rmns_2" type="text" style="width:90px;">
+                            <input readonly class="rmns_2" type="text" style="width:90px;">
                         </div>
                         <div>
                             <select class="form" id="phosphate_rmns_2">
@@ -1008,7 +1008,7 @@
                             <p>RMNS</p>
                         </div>
                         <div>
-                            <input class="rmns_3" type="text" style="width:90px;">
+                            <input readonly class="rmns_3" type="text" style="width:90px;">
                         </div>
                         <div>
                             <select class="form" id="phosphate_rmns_3">
@@ -1137,7 +1137,7 @@
                             <p>RMNS</p>
                         </div>
                         <div>
-                            <input class="rmns_1" type="text" style="width:90px;">
+                            <input readonly class="rmns_1" type="text" style="width:90px;">
                         </div>
                         <div>
                             <select class="form" id="silicate_rmns_1">
@@ -1153,7 +1153,7 @@
                             <p>RMNS</p>
                         </div>
                         <div>
-                            <input class="rmns_2" type="text" style="width:90px;">
+                            <input readonly class="rmns_2" type="text" style="width:90px;">
                         </div>
                         <div>
                             <select class="form" id="silicate_rmns_2">
@@ -1169,7 +1169,7 @@
                             <p>RMNS</p>
                         </div>
                         <div>
-                            <input class="rmns_3" type="text" style="width:90px;">
+                            <input readonly class="rmns_3" type="text" style="width:90px;">
                         </div>
                         <div>
                             <select class="form" id="silicate_rmns_3">
@@ -1297,7 +1297,7 @@
                             <p>RMNS</p>
                         </div>
                         <div>
-                            <input class="rmns_1" type="text" style="width:90px;">
+                            <input readonly class="rmns_1" type="text" style="width:90px;">
                         </div>
                         <div>
                             <select class="form" id="ammonia_rmns_1">
@@ -1313,7 +1313,7 @@
                             <p>RMNS</p>
                         </div>
                         <div>
-                            <input class="rmns_2" type="text" style="width:90px;">
+                            <input readonly class="rmns_2" type="text" style="width:90px;">
                         </div>
                         <div>
                             <select class="form" id="ammonia_rmns_2">
@@ -1329,7 +1329,7 @@
                             <p>RMNS</p>
                         </div>
                         <div>
-                            <input class="rmns_3" type="text" style="width:90px;">
+                            <input readonly class="rmns_3" type="text" style="width:90px;">
                         </div>
                         <div>
                             <select class="form" id="ammonia_rmns_3">
@@ -1458,7 +1458,7 @@
                             <p>RMNS</p>
                         </div>
                         <div>
-                            <input class="rmns_1" type="text" style="width:90px;">
+                            <input readonly class="rmns_1" type="text" style="width:90px;">
                         </div>
                         <div>
                             <select class="form" id="nitrite_rmns_1">
@@ -1474,7 +1474,7 @@
                             <p>RMNS</p>
                         </div>
                         <div>
-                            <input class="rmns_2" type="text" style="width:90px;">
+                            <input readonly class="rmns_2" type="text" style="width:90px;">
                         </div>
                         <div>
                             <select class="form" id="nitrite_rmns_2">
@@ -1490,7 +1490,7 @@
                             <p>RMNS</p>
                         </div>
                         <div>
-                            <input class="rmns_3" type="text" style="width:90px;">
+                            <input readonly class="rmns_3" type="text" style="width:90px;">
                         </div>
                         <div>
                             <select class="form" id="nitrite_rmns_3">
@@ -1547,7 +1547,7 @@
                     </div>
                     <div>
                         <p style="padding-left:0px;">Run Comments:</p>
-                        <textarea class="form" rows=7 cols=50 id="review_comments"></textarea>
+                        <textarea on class="form" rows=7 cols=50 id="review_comments"></textarea>
                     </div>
                 </div>
             </div>
@@ -1558,9 +1558,6 @@
 </body>
 
 <script>
-
-
-
 
 </script>
 
