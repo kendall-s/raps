@@ -2,22 +2,28 @@ var file_being_edited = false;
 
 const path = require('path')
 
-const { csv_header, output_name_object, header_converter } = require(path.join(__dirname, './js/csv_header.js'));
-const { get_files_in_dir, get_key_by_value, read_csv_file, get_path_formatted_date } = require(path.join(__dirname, './js/utils.js'));
-const { save_to_both_paths, save_all_data } = require(path.join(__dirname, './js/csv_actions.js'));
+const { header_converter } = require(path.join(__dirname, './js/csv_header.js'));
+//const { get_files_in_dir, get_key_by_value, read_csv_file, get_path_formatted_date } = require(path.join(__dirname, './js/utils.js'));
+const { save_to_both_paths, save_all_data, collate_final } = require(path.join(__dirname, './js/csv_actions.js'));
 
 const { ipcRenderer, shell } = require('electron')
 const remote = require('electron').remote;
 const app = remote.app;
 
+// Get the appdata path 
 const app_data_path = (app.getPath("appData")) + '\\run_analysis_proc_sheet\\';
 console.log(app_data_path);
 
-/* Initialise supplementary scripts */
+// Get the app version from the package.json
+const app_version = app.getVersion();
+
+// Set the app version in the HTML gui 
+document.getElementById('app-version').textContent = "v"+ app_version;
 
 
 
-/*                     TOC
+/*
+                Table of Contents
 ________________________________________________
 
                 IPC Functions
@@ -229,7 +235,3 @@ function handleWindowControls() {
         }
     }
 }
-
-
-
-

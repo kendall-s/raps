@@ -1,6 +1,6 @@
-const { csv_header, output_name_object, header_converter } = require(path.join(__dirname, 'csv_header.js'));
-const { get_path_formatted_date, get_files_in_dir, get_key_by_value } = require(path.join(__dirname, 'utils.js'));
-const { get_current_file_path, increment_version_box } = require(path.join(__dirname, 'ui_react.js'));
+const { csv_header, output_name_object } = require(path.join(__dirname, 'csv_header.js'));
+const { get_path_formatted_date, get_files_in_dir, get_key_by_value, create_appdata_path, read_csv_file } = require(path.join(__dirname, 'utils.js'));
+const { get_current_file_path, increment_version_box, refresh_file_list } = require(path.join(__dirname, 'ui_react.js'));
 
 const fs = require('fs');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
@@ -10,19 +10,31 @@ This file contains the functionality for dealing with the CSV files
 Including the reading, writing and formatting of the data in prep for the CSV files
 ____________________________________________________________________________________
 
-Table of Contents:
+                                Table of Contents:
+____________________________________________________________________________________
+
 
 - process csv(filename, path): csv processer for creating collated file
 
+- create_appdata_path(save_time): takes in the save time to create the appropriate appdata file 
+
 - save_to_both_paths() : void function to initiate saving to both paths (user desired and appdata)
 
-- save_all_data(appdata_save, new_version): saves 
+- save_all_data(appdata_save, new_version): saves data both to the specified file and the appdata file
 
 - fetch_all_data(): returns the form data from the HTML page
 
 - collate_final(): routine for creating the collated CSV file
+
 */
 
+
+/**
+ * Processes the csv data file of each RAPS, used by the collate final routine. If successful returns the data object
+ * @param {String} file_name file name of the csv
+ * @param {String} path full path of the csv file
+ * @return {Object}
+ */
 async function process_csv(file_name, path) {
     let csv_data = [];
     try {
@@ -60,17 +72,10 @@ async function process_csv(file_name, path) {
     }
 };
 
-// Creates the appdata folder file
-function create_appdata_path(save_time) {
-    file_path = app_data_path + save_time + '.csv';
-    console.log(file_path);
-    fs.writeFile(file_path, '', (err) => {
-        if (err) throw err;
-        console.log('The appdata file has been created!');
-    });
-}
 
-// Function called by new version button 
+/**
+ * Wrapper function to save both to the specified file and to appdata. Called on use of 'new version'.
+ */
 function save_to_both_paths() {
     // Save as new version
     save_all_data(appdata_save = false, new_version = true);
@@ -79,18 +84,22 @@ function save_to_both_paths() {
     save_all_data(appdata_save = true, new_version = false);
 }
 
+
 // Saves the data to the CSV with a human readable header (which is why this is so damn long...)
-function save_all_data(appdata_save = false, new_version = false) {
+/**
+ * Data saving routine that gets the data and writes it to file, can save to a specified file or the appdata file depending on inputs
+ * @param {Boolean} appdata_save 
+ * @param {Boolean} new_version 
+ */
+function save_all_data(appdata_save=false, new_version=false) {
     
     let file_path = get_current_file_path();
 
     // Can't save the file, if a New file is opened and a path isn't specified
     if (file_path == "<i>New</i>") {
         console.log("Not saving file...")
+        alert("I can't save anything because I don't have a path to save to. Please use Save File As first.")
     } else {
-        console.log(file_path)
-        console.log(new_version);
-
         // Calculate the time which we are saving the file so it can be added
         // This is used below and is saved directly into the .CSV
         let save_time_path = get_path_formatted_date();
@@ -98,7 +107,7 @@ function save_all_data(appdata_save = false, new_version = false) {
         
         // If this is the pass to save data in Appdata then create the file path
         if (appdata_save == true) {
-            create_appdata_path(save_time_path);
+            file_path = create_appdata_path(save_time_path);
         }
 
         // Fetch all the data from the HTML page
@@ -126,6 +135,7 @@ function save_all_data(appdata_save = false, new_version = false) {
                 }
             }
         }
+
         // Write data to csv file, updating the version number to match the now newest version
         csvWriter.writeRecords(output)
         .then(() => {
@@ -143,7 +153,9 @@ function save_all_data(appdata_save = false, new_version = false) {
 }
 
 
-// Gets the data from all the fields marked with the Form class
+/**
+ * Collects all the data from the form elements on the RAPS
+ */
 function fetch_all_data() {
 
     form_data = {};
@@ -169,6 +181,9 @@ function fetch_all_data() {
     return form_data;
 }
 
+/**
+ * Routine that collates all the RAPS files into a singular file, taking the last row of each, which is assuming that is the final for each. 
+ */
 async function collate_final() {
     var directory_path = document.getElementById("selected_directory").text
     if (directory_path) {
@@ -212,6 +227,7 @@ async function collate_final() {
             window.postMessage({
                 type: 'new_collated_saved'
             })
+            refresh_file_list();
         })
         .catch((err) => {
             alert(`I've encountered an error 😅. The error is: \n${err}. \n\n`);
@@ -219,4 +235,4 @@ async function collate_final() {
     }
 }
 
-module.exports = { save_to_both_paths, save_all_data }
+module.exports = { save_to_both_paths, save_all_data, collate_final }

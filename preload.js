@@ -25,5 +25,8 @@ process.once('loaded', () => {
       else if (event.data.type === 'refresh_list') {
         ipcRenderer.send('refresh_list', event.data)
       }
+      else if (event.data.type === 'new_collated_saved') {
+        ipcRenderer.send('new_collated_saved', event.data)
+      }
     })
   })

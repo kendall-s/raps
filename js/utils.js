@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const csv = require('csv-parser');
 const { shell } = require('electron')
 
 
@@ -63,7 +64,27 @@ async function get_key_by_value(object, value) {
     return Object.keys(object).find(key => object[key] === value);
 }
 
-// Return the date and time formatted such that it can be in a file path name
+
+/**
+ * Small function that creates an appdata file with the same save time as the RAPS file, this is used for backing up data :)
+ * @param {} save_time 
+ * @return {String}
+ */
+function create_appdata_path(save_time) {
+    file_path = app_data_path + save_time + '.csv';
+    console.log(file_path);
+    fs.writeFile(file_path, '', (err) => {
+        if (err) throw err;
+        console.log('The appdata file has been created!');
+    });
+    return file_path;
+}
+
+
+/**
+ * Utility function which returns the call time as a string that can be used in a file path
+ * @return {String}
+ */
 function get_path_formatted_date() {
     let save_time_date = new Date().toLocaleString();
     let save_time_path = save_time_date.split('/').join('-');
@@ -73,6 +94,6 @@ function get_path_formatted_date() {
     return save_time_path;
 }
 
-module.exports = { get_files_in_dir, get_key_by_value, read_csv_file, get_path_formatted_date }
+module.exports = { create_appdata_path, get_files_in_dir, get_key_by_value, read_csv_file, get_path_formatted_date }
 
 

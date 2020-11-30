@@ -7,14 +7,23 @@ form data which is handled in the csv_actions file.
 
 ____________________________________________________________________________________
 
-Table of Contents:
+                                Table of Contents:
 
-- save_to_both_paths() : void function to initiate saving to both paths (user desired and appdata)
+- refresh_file_list(): sends a IPC to update the file list
 
-- fetch_all_data(): returns the form data from the HTML page
+- populate_file_list(): formats file names and fills the file list
 
-- 
+- populate_all_data(): upon loading of a csv file, this function puts all the data into the fields
 
+- clear_all(): empties and clears all the fields
+
+- check_all(): checks all the daily check boxes, if the check all is ticked
+
+- increment_version_box(): on creation of a new version, the version dropdown box is incremented
+
+- get_current_file_path(): parses the currently kept file path
+
+- update_rmns(): fills in the RMNS fields that are read only on the page
 
 */
 
@@ -72,6 +81,9 @@ function populate_all_data(data, version) {
             console.log(check_state)
             if (check_state == "true") {
                 field.checked = true;
+            }
+            if (check_state == "false") {
+                field.checked = false;
             }
         }
 
@@ -173,4 +185,4 @@ function update_rmns(rmns_input) {
     }
 }
 
-module.exports = { get_current_file_path, increment_version_box }
+module.exports = { get_current_file_path, increment_version_box, refresh_file_list }
