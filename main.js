@@ -6,7 +6,6 @@ const fs = require('fs')
 const path = require('path')
 const EventEmitter = require('events')
 const csv = require('csv-parser')
-const { get_files_in_dir } = require(path.join(__dirname, './js/utils.js'));
 
 const electronLocalshortcut = require('electron-localshortcut');
 
@@ -65,6 +64,8 @@ app.on('activate', () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
+const { get_files_in_dir } = require(path.join(__dirname, './js/utils.js'));
+
 var app_data_path = app.getPath("appData");
 
 try {
@@ -72,6 +73,11 @@ try {
 } catch (err) {
   console.log("Appdata directory already exists")
 }
+
+const app_version = app.getVersion();
+// Set the app version in the HTML gui 
+//document.getElementById('app-version').textContent = "v" + app_version;
+
 
 
 // ******************************************************
@@ -180,3 +186,4 @@ function read_csv_file(file_to_open, version=0, column_check=0) {
       }
     });
 }
+
