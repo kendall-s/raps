@@ -3,7 +3,7 @@
 ### Big TODOs:
 - Add tests 
 - ~~Refactor so that Javascript is split up in a logical sense~~ (30/11/2020)
-- Implement final version collation functionality
+- ~~Implement final version collation functionality~~ (1/12/2020)
 - ~~Implement open explorer to appdata backup folder~~ (18/09/2020)
 - Implement search functionality within page
 - Clean up bookmark functionality bug where document shrinks
