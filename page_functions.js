@@ -4,6 +4,7 @@ const path = require('path')
 
 const { header_converter } = require(path.join(__dirname, './js/csv_header.js'));
 //const { get_files_in_dir, get_key_by_value, read_csv_file, get_path_formatted_date } = require(path.join(__dirname, './js/utils.js'));
+const { fetch_latest_release } = require(path.join(__dirname, './js/utils.js'));
 const { save_to_both_paths, save_all_data, collate_final } = require(path.join(__dirname, './js/csv_actions.js'));
 
 const { ipcRenderer, shell } = require('electron')
@@ -20,7 +21,7 @@ const app_version = app.getVersion();
 // Set the app version in the HTML gui 
 document.getElementById('app-version').textContent = "v"+ app_version;
 
-
+fetch_latest_release(app_version);
 
 /*
                 Table of Contents

@@ -9,7 +9,8 @@
     "csv-writer": "^1.6.0",
     "electron-localshortcut": "^3.2.1",
     "electron-reload": "^1.5.0",
-    "jsdoc": "^3.6.6"
+    "jsdoc": "^3.6.6",
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "electron-builder": "^22.7.0",

@@ -74,10 +74,6 @@ try {
   console.log("Appdata directory already exists")
 }
 
-const app_version = app.getVersion();
-// Set the app version in the HTML gui 
-//document.getElementById('app-version').textContent = "v" + app_version;
-
 
 
 // ******************************************************

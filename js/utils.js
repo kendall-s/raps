@@ -2,7 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const csv = require('csv-parser');
 const { shell } = require('electron')
-
+const fetch = require("node-fetch");
+const { release } = require('os');
 
 // The function which handles getting all CSV files in a directory. They are ordered by modif time
 function get_files_in_dir(directory_path) {
@@ -94,6 +95,28 @@ function get_path_formatted_date() {
     return save_time_path;
 }
 
-module.exports = { create_appdata_path, get_files_in_dir, get_key_by_value, read_csv_file, get_path_formatted_date }
+function fetch_latest_release(current_app_version) {
+    fmt_current_app_version = current_app_version.replace(/v/g, '');
+
+    let release_number = '';
+    let url = 'https://api.github.com/repos/kendall-s/raps/releases/latest';
+    // Fetch the latest release from the github API
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        release_number = data['name'].replace(/v/g, '');
+        console.log(release_number)
+        if (fmt_current_app_version == release_number) {
+            console.log('Right version being used.')
+        } else {
+            alert('Hey just a reminder that there is a newer version');
+        }
+    })
+    .catch((err) => {
+        console.log('No internet ?')
+    })
+}   
+
+module.exports = { fetch_latest_release, create_appdata_path, get_files_in_dir, get_key_by_value, read_csv_file, get_path_formatted_date }
 
 
