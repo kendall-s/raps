@@ -8,6 +8,7 @@ const EventEmitter = require('events')
 const csv = require('csv-parser')
 
 const electronLocalshortcut = require('electron-localshortcut');
+const { disconnect } = require('process')
 
 var win = null;
 
@@ -38,7 +39,6 @@ function createWindow() {
     win.webContents.toggleDevTools()
   })
 }
-
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -98,24 +98,17 @@ ipcMain.on('select_dir', async (event, arg) => {
 
 // Event handling for when user wants to Save File As, displays the save path dialog then returns that result back to the render page
 ipcMain.on('save_dialog', async (event, arg) => {
-  let option = {
-    title: "Save File As",
-    filters: [{ name: 'Comma Separated Values', extensions: ['csv'] }]
-  }
-
-  const result = await dialog.showSaveDialog(options = option).then(result => {
-    win.webContents.send('save_path', result);
-  }).catch(err => {
-    console.log(err);
-  })
+  show_save_dialog();
 })
 
 // Event handling for the refresh list function, which is needed for when a user saves a new file, 
 // the files list is then updated to show the new file
 ipcMain.on('refresh_list', async (event, arg) => {
   dir = arg["dir_path"];
-  let csv_files = get_files_in_dir(dir);
-  populate_list(csv_files);
+  if (fs.existsSync(dir)) {
+    let csv_files = get_files_in_dir(dir);
+    populate_list(csv_files);
+  }
 })
 
 // When the user selects a file from the file list, this function reads it in and then
@@ -153,6 +146,21 @@ ipcMain.on('new_collated_saved', async (event, arg) => {
   })
 })
 
+ipcMain.on('cant_save_need_path', async (event, arg) => {
+  const disp = await dialog.showMessageBox({
+    type: "info",
+    title: "Error saving file",
+    buttons: ['Save File As', 'OK'],
+    message: "I can't save the file because there isn't an active file. Please use Save File As to create a new file to save data to."
+  })
+  .then((response) => {
+    console.log(response)
+    if (response.response == 0) {
+      show_save_dialog();
+    }
+  })
+})
+
 
 
 // Helper functions
@@ -160,6 +168,20 @@ ipcMain.on('new_collated_saved', async (event, arg) => {
 // Sends the object containing all the csv files in a directory back to the rendered page
 function populate_list(csv_files) {
   win.webContents.send('populate_list', csv_files);
+}
+
+async function show_save_dialog() {
+  let option = {
+    title: "Save File As",
+    filters: [{ name: 'Comma Separated Values', extensions: ['csv'] }]
+  }
+
+  const result = await dialog.showSaveDialog(options = option)
+  .then(result => {
+    win.webContents.send('save_path', result);
+  }).catch(err => {
+    console.log(err);
+  })
 }
 
 function read_csv_file(file_to_open, version=0, column_check=0) {

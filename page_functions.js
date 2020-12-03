@@ -1,6 +1,7 @@
 var file_being_edited = false;
 
-const path = require('path')
+const path = require('path');
+const fs = require('fs');
 
 const { header_converter } = require(path.join(__dirname, './js/csv_header.js'));
 //const { get_files_in_dir, get_key_by_value, read_csv_file, get_path_formatted_date } = require(path.join(__dirname, './js/utils.js'));
@@ -47,7 +48,14 @@ ________________________________________________
 // CTRL+S save shortcut handler
 ipcRenderer.on('save_shortcut', (event, data) => {
     console.log("Keyboard shortcut");
-    save_to_both_paths();
+    let current_file_path = document.getElementById("file_currently_open").title;
+    if (fs.existsSync(current_file_path)) {
+        save_to_both_paths();
+    } else {
+        window.postMessage({
+            type: 'cant_save_need_path'
+        })
+    }
 })
 
 // IPC for when the user has selected a specific folder to load in the CSV files from
@@ -66,19 +74,22 @@ ipcRenderer.on('populate_list', (event, data) => {
 ipcRenderer.on('save_path', (event, data) => {
 
     console.log(data);
+    if (data.canceled == true) {
+        console.log("Cancelled file saving.")
+    } else {
 
-    // Set the file currently open element to the file path 
-    const file_split = data.filePath.split("\\");
-    document.getElementById("file_currently_open").innerHTML = file_split[file_split.length - 1];
-    document.getElementById("file_currently_open").title = data.filePath;
-    file_being_edited = data.filePath;
+        // Set the file currently open element to the file path 
+        const file_split = data.filePath.split("\\");
+        document.getElementById("file_currently_open").innerHTML = file_split[file_split.length - 1];
+        document.getElementById("file_currently_open").title = data.filePath;
+        file_being_edited = data.filePath;
 
-    // Save all the data to the selected path and then also refresh the file list to include to file
-    save_all_data();
-    save_all_data(appdata_save = true, new_version = false);
+        // Save all the data to the selected path and then also refresh the file list to include to file
+        save_all_data();
+        save_all_data(appdata_save = true, new_version = false);
 
-    refresh_file_list();
-
+        refresh_file_list();
+    }
 });
 
 // When an old file is opened this function loads in that data (for the specific version) 

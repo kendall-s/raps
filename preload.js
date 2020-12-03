@@ -28,5 +28,8 @@ process.once('loaded', () => {
       else if (event.data.type === 'new_collated_saved') {
         ipcRenderer.send('new_collated_saved', event.data)
       }
+      else if (event.data.type === 'cant_save_need_path') {
+        ipcRenderer.send('cant_save_need_path', event.data)
+      }
     })
   })

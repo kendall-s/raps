@@ -41,7 +41,7 @@ version_selector.onchange = (event) => {
 
 // Updates the files in the file list
 function refresh_file_list() {
-
+    
     var directory_path = document.getElementById("selected_directory").text
     window.postMessage({
         type: 'refresh_list',
