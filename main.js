@@ -150,12 +150,12 @@ ipcMain.on('cant_save_need_path', async (event, arg) => {
   const disp = await dialog.showMessageBox({
     type: "info",
     title: "Error saving file",
-    buttons: ['Save File As', 'OK'],
+    buttons: ['OK', 'Save File As'],
     message: "I can't save the file because there isn't an active file. Please use Save File As to create a new file to save data to."
   })
   .then((response) => {
     console.log(response)
-    if (response.response == 0) {
+    if (response.response == 1) {
       show_save_dialog();
     }
   })
