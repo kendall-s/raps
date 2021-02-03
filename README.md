@@ -1,5 +1,7 @@
 # Run Analysis & Processing Sheet (RAPS)
 
+An Electron based application for the recording of key information pertaining to an AA3 analysis. Highly specific to the Hydrochemistry teams requirements aboard RV Investigator.
+
 #### Big TODOs:
 - Add tests (form filling, saving, reading tests highly required)
 - ~~Refactor so that Javascript is split up in a logical sense~~ (30/11/2020)
