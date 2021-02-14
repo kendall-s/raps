@@ -43,11 +43,13 @@ version_selector.onchange = (event) => {
     console.log(version_selected);
     load_file(version = version_selected);
 }
-document.addEventListener('keydown', function (e) {
-    if (e.key == "r") {
-        location.reload()
-    }
-})
+
+// Used for debugging 
+// document.addEventListener('keydown', function (e) {
+//     if (e.key == "r") {
+//         location.reload()
+//     }
+// })
 
 document.addEventListener('click', function (e) {
     document.getElementById('messageModal').style.display = 'none';

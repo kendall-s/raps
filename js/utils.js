@@ -103,6 +103,7 @@ function get_path_formatted_date() {
  */
 function fetch_latest_release(current_app_version) {
     fmt_current_app_version = current_app_version.replace(/v/g, '');
+    fmt_current_app_version = fmt_current_app_version.split('.').join("");
 
     let release_number = '';
     let url = 'https://api.github.com/repos/kendall-s/raps/releases/latest';
@@ -111,14 +112,14 @@ function fetch_latest_release(current_app_version) {
     .then(response => response.json())
     .then(data => {
         release_number = data['name'].replace(/v/g, '');
+        release_number = release_number.split(".").join("");
         console.log(release_number)
-        if (fmt_current_app_version == release_number) {
+        console.log(fmt_current_app_version)
+        if (parseFloat(fmt_current_app_version) >= parseFloat(release_number)) {
             console.log('Right version being used.')
         } else {
             var modal = document.getElementById("messageModal");
             modal.style.display = "block";
-
-
             //alert("Hey just a reminder that there is a newer version");
         }
     })
