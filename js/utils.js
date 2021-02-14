@@ -95,6 +95,12 @@ function get_path_formatted_date() {
     return save_time_path;
 }
 
+
+/**
+ * Retrieves the latest release version and checks if the opened app is older.
+ * Alerts user that there is a newer version to download.
+ * @param {String} current_app_version 
+ */
 function fetch_latest_release(current_app_version) {
     fmt_current_app_version = current_app_version.replace(/v/g, '');
 
@@ -109,13 +115,18 @@ function fetch_latest_release(current_app_version) {
         if (fmt_current_app_version == release_number) {
             console.log('Right version being used.')
         } else {
-            alert('Hey just a reminder that there is a newer version');
+            var modal = document.getElementById("messageModal");
+            modal.style.display = "block";
+
+
+            //alert("Hey just a reminder that there is a newer version");
         }
     })
     .catch((err) => {
         console.log('No internet ?')
     })
 }   
+
 
 module.exports = { fetch_latest_release, create_appdata_path, get_files_in_dir, get_key_by_value, read_csv_file, get_path_formatted_date }
 

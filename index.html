@@ -12,7 +12,7 @@
 </head>
 
 <body style="overflow-y: hidden;">
-    <div style="position: fixed; top: 0px; left:0px; height: 2px; width: 100%; background-color:rgb(37, 37, 37)"></div>
+    <div id="root" style="position: fixed; top: 0px; left:0px; height: 2px; width: 100%; background-color:rgb(37, 37, 37)"></div>
 
     <!-- Title bar HTML - custom title bar used -->
     <header id="title-bar">
@@ -79,7 +79,6 @@
                         File</p>
                 </button>
             </div>
-
             <div class="sidenav-control-button-div" id="save_menu_div">
                 <button class="sidebar_expander toggle-down pointerCursor" onclick="navOpening(this.id)"
                     id="save_menu_button" style="margin-bottom:2px">
@@ -115,7 +114,7 @@
                     onclick="open_dir()"> Browse</button>
             </div>
             <div style="display:flex; justify-content: center; height: 100%;">
-                <select id="csv_file_list" class="sidenav-select" size="27" ondblclick="load_file()"
+                <select id="csv_file_list" class="sidenav-select bg-light" size="27" ondblclick="load_file()"
                     style="width: 150px; justify-content: center; display: flex; height: 100%;">
                     
                     <option>
@@ -1553,6 +1552,16 @@
             </div>
             <p style="text-align: center; margin-top: 60px; margin-bottom: 70px; font-size: small;">Don't forget to
                 save!</p>
+        </div>
+    </div>
+
+    <div id="messageModal" class="modal">
+        <div id="messageModalContent" class="modal-content">
+            <h2 style="padding-bottom: 1rem;">New Version Available</h2>
+            <p>This is a reminder to let you know there is a new version available. </p>
+            <p><a data-link="https://github.com/kendall-s/raps/releases" onclick="open_link_external(this)" style="text-decoration: underline; color: rgb(30, 138, 255); cursor: pointer;">Click here</a> 
+                to download the new version (download the distribution.zip file).</p>
+            <button id="messageModalClose" onclick="close_modal(this)" class="btn btn-outline-primary my-3 ml-auto mr-auto px-5" style="max-width: fit-content;">Close</button>
         </div>
     </div>
 </body>

@@ -1,6 +1,6 @@
 {
   "name": "raps",
-  "version": "0.0.34",
+  "version": "0.0.33",
   "description": "Run Analysis & Processing Sheet App",
   "main": "main.js",
   "dependencies": {

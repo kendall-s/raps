@@ -78,10 +78,10 @@ async function process_csv(file_name, path) {
  */
 function save_to_both_paths() {
     // Save as new version
-    save_all_data(appdata_save = false, new_version = true);
+    save_all_data(appdata_save=false, new_version=true, new_file=false);
 
     // Save new file to the appdata location
-    save_all_data(appdata_save = true, new_version = false);
+    save_all_data(appdata_save=true, new_version=false, new_file=false);
 }
 
 
@@ -91,7 +91,7 @@ function save_to_both_paths() {
  * @param {Boolean} appdata_save 
  * @param {Boolean} new_version 
  */
-function save_all_data(appdata_save=false, new_version=false) {
+function save_all_data(appdata_save=false, new_version=false, new_file=false) {
     
     let file_path = get_current_file_path();
 
@@ -139,8 +139,15 @@ function save_all_data(appdata_save=false, new_version=false) {
         // Write data to csv file, updating the version number to match the now newest version
         csvWriter.writeRecords(output)
         .then(() => {
-            if (appdata_save == false) { // If this isn't the save loop for the appdata folder, we will increment the version
-                increment_version_box();
+            if (appdata_save == false) {
+                if (new_file == false) {
+                    // If we are saving a file that already exists and we arent doing the appdata version
+                    // update the version box to reflect this.
+                    increment_version_box();
+                } else {
+                    // We need to reset the version box back to 1 if we have saved a new file.=
+                    reset_version_box();
+                }
                 window.postMessage({
                     type: 'new_version_saved'
                 })

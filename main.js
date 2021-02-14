@@ -178,6 +178,7 @@ async function show_save_dialog() {
 
   const result = await dialog.showSaveDialog(options = option)
   .then(result => {
+    result['new_file'] = true;
     win.webContents.send('save_path', result);
   }).catch(err => {
     console.log(err);

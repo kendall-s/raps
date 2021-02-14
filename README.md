@@ -15,7 +15,7 @@
 
 ### Features Include:
 - 📑 Customised form specific to AA3 analysis
-- ⚡ Lightweight (ignoring RAM) and fast loading 
+- ⚡ Lightweight (ignoring RAM plzqrjjjm) and fast loading 
 - 💾💾 Double redundancy file saving - ensuring any data saved is never overwritten and always recoverable
 - 📅 Data saved in simple .csv format, allowing for straightforward data accessibility
 - 📂 Collates a folder worth of files into one spreadsheet for data driven overview

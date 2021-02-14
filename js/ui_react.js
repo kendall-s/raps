@@ -21,12 +21,19 @@ ________________________________________________________________________________
 
 - increment_version_box(): on creation of a new version, the version dropdown box is incremented
 
+- reset_version_box(): when saving a fresh file, the version box needs to be reset
+
 - get_current_file_path(): parses the currently kept file path
 
 - update_rmns(): fills in the RMNS fields that are read only on the page
 
+- close_modal(): will set a modals display to none so that it is closed
+
 */
 
+
+// The next 20 or so lines are execute on page startup *************************
+// Adding event listeners to the elements
 
 // Function that handles the version selection feature, if the dropdown is changed, 
 // this triggers the file open to be reloaded to the selected version
@@ -35,9 +42,26 @@ version_selector.onchange = (event) => {
     var version_selected = event.target.value;
     console.log(version_selected);
     load_file(version = version_selected);
-
 }
+document.addEventListener('keydown', function (e) {
+    if (e.key == "r") {
+        location.reload()
+    }
+})
 
+document.addEventListener('click', function (e) {
+    document.getElementById('messageModal').style.display = 'none';
+  }, false);
+
+document.getElementById("messageModalContent").addEventListener('click', function (e) {
+    e.preventDefault()
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+    return false;
+})  
+
+
+// Below is the functions that handle different component reactivity
 
 // Updates the files in the file list
 function refresh_file_list() {
@@ -167,6 +191,16 @@ function increment_version_box() {
     vc.selectedIndex = vc.options.length - 1;
 }
 
+function reset_version_box() {
+    // This is used when saving a new file, to reset the version back to 1
+    const vc = document.getElementById("version-select")
+    vc.innerHTML = ""
+    let opt = document.createElement("option")
+    opt.text = 0;
+    vc.add(opt)
+}
+
+
 // Gets the current file path, which is actually held within the title of the file path element 🤡
 function get_current_file_path() {
     // Pull the file path from the currently open 
@@ -185,4 +219,13 @@ function update_rmns(rmns_input) {
     }
 }
 
-module.exports = { get_current_file_path, increment_version_box, refresh_file_list }
+
+function close_modal(button) {
+    let close_button_id = button.getAttribute('id');
+
+    if (close_button_id == 'messageModalClose') {
+        document.getElementById('messageModal').style.display = "none";
+    }
+}
+
+module.exports = { get_current_file_path, increment_version_box, reset_version_box, refresh_file_list }

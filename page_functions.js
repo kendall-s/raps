@@ -38,6 +38,7 @@ ________________________________________________
         - Load file
         - Open directory
         - Save directory
+        - Open links externally
 
             Title Bar
         - Button functionality for title bar
@@ -85,8 +86,12 @@ ipcRenderer.on('save_path', (event, data) => {
         file_being_edited = data.filePath;
 
         // Save all the data to the selected path and then also refresh the file list to include to file
-        save_all_data();
-        save_all_data(appdata_save = true, new_version = false);
+        if (data.new_file == true) {
+            save_all_data(appdata_save=false, new_version=false, new_file=true);
+        } else {
+            save_all_data();
+        }
+        save_all_data(appdata_save=true, new_version=false);
 
         refresh_file_list();
     }
@@ -151,7 +156,7 @@ ipcRenderer.on('load_form_data', (event, data) => {
 //                              Page utility functions
 // ______________________________________________________________________________
 
-// Hnadles opening the appdata folder on the users machine
+// Handles opening the appdata folder on the users machine
 function open_appdata_folder() {
     const appdata_path = app.getPath("appData")
     shell.openItem(appdata_path + "\\run_analysis_proc_sheet\\")
@@ -161,7 +166,7 @@ function open_appdata_folder() {
 function load_file(version = false, file_path = false) {
     let column_check = false;
     // If the user changes the file by using the version control dropdown, else they are loading a whole separate file
-    if (version) { // Use this to sneakily check the current columns in a file
+    if (version) { // Use this to sneakily check the current columns in a file (why did I do this?)
         var file_path = document.getElementById("file_currently_open").title
         var value = file_path;
 
@@ -191,6 +196,16 @@ function save_data() {
     window.postMessage({
         type: 'save_dialog'
     })
+}
+
+/**
+ * So, when you place an anchor tag with a link in an electron app, it will default to opening in
+ * the electron app instead of opening the OS default browser. This function overrides that functionality.
+ * @param {String} link 
+ */
+function open_link_external(anchor_tag) {
+    let link = anchor_tag.getAttribute('data-link');
+    shell.openExternal(link);
 }
 
 
