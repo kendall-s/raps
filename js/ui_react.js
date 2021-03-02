@@ -219,10 +219,6 @@ function update_rmns(rmns_input) {
     for (const el of rmns_fields) {
         el.value = rmns_text;
     }
-
-    if (el.value == "") {
-        
-    }
 }
 
 

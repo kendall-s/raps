@@ -159,7 +159,7 @@ ipcRenderer.on('load_form_data', (event, data) => {
 // Handles opening the appdata folder on the users machine
 function open_appdata_folder() {
     const appdata_path = app.getPath("appData")
-    shell.openItem(appdata_path + "\\run_analysis_proc_sheet\\")
+    shell.openPath(appdata_path + "\\run_analysis_proc_sheet\\")
 }
 
 // Handles the load file button, gets selected file, sends to Main loop
