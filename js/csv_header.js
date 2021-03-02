@@ -14,12 +14,12 @@ const csv_header = [
     { id: 'pre_analysis_comments', title: 'Pre-Analysis Comments' },
 
     { id: 'air_valve', title: 'Air Tubing Moved' },
-    { id: 'mq_container', title: 'MQ Container Full' },
+    { id: 'mq_cont', title: 'MQ Container Full' },
     { id: 'reagents_ran', title: 'Reagents Ran For 30 Mins' },
     { id: 'reagents_sufficient', title: 'Sufficient Reagents' },
     { id: 'correct_rack_file', title: 'Correct Rack File' },
     { id: 'daily_check_comment', title: 'Daily Check Comment' },
-    { id: 'all_dailies_checked', title: 'All Daily Completed' },
+    { id: 'all_daily_checked', title: 'All Daily Completed' },
 
     { id: 'silicate_colour', title: 'Silicate Colour' },
     { id: 'silicate_acid', title: 'Silicate Acid' },
