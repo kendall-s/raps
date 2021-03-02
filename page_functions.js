@@ -29,7 +29,7 @@ fetch_latest_release(app_version);
 ________________________________________________
 
                 IPC Functions
-        - Save shortcut
+        - Save shortcut handler
         - Populate file list 
         - Save file as
         - Load form data
