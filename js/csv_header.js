@@ -71,11 +71,11 @@ const csv_header = [
 
     { id: 'start_time', title: 'Start Time' },
     { id: 'finish_time', title: 'Finish Time' },
-    { id: 'start_pump_tubes', title: 'Time on PTubes Start' },
-    { id: 'finish_pump_tubes', title: 'Time on PTubes Finish' },
+    { id: 'start_pump_tube_hours', title: 'Time on PTubes Start' },
+    { id: 'finish_pump_tube_hours', title: 'Time on PTubes Finish' },
     { id: 'start_lab_temp', title: 'Start Lab Temp' },
     { id: 'finish_lab_temp', title: 'Finish Lab Temp' },
-    { id: 'rack_used', title: 'Rack Used' },
+    { id: 'rack_file_used', title: 'Rack Used' },
 
     { id: 'trace_checked', title: 'Trace Checked' },
     { id: 'trace_concerns', title: 'Trace Concerns' },
@@ -233,12 +233,12 @@ const output_name_object = {
 
         start_time: 'start_time',
         finish_time: 'finish_time',
-        start_pump_tubes: 'start_pump_tube_hours',
-        finish_pump_tubes: 'finish_pump_tube_hours',
-        start_lab_temp: 'start_lab_temperature',
-        finish_lab_temp: 'finish_lab_temperature',
+        start_pump_tube_hours: 'start_pump_tube_hours',
+        finish_pump_tube_hours: 'finish_pump_tube_hours',
+        start_lab_temp: 'start_lab_temp',
+        finish_lab_temp: 'finish_lab_temp',
 
-        rack_used: 'rack_file_used',
+        rack_file_used: 'rack_file_used',
         trace_checked: 'trace_checked',
         trace_concerns: 'trace_concerns',
 
@@ -354,7 +354,7 @@ const header_converter = {
     nox_colour: 'NOx Colour',
     phosphate_colour: 'Phosphate Colour',
     phosphate_acid: 'Phosphate Acid',
-    reagent_comments: 'New Reagents Comment',
+    reagent_comment: 'New Reagents Comment',
 
     rmns_1: 'RMNS 1 Used',
     rmns_1_used: 'RMNS 1 Lot',
@@ -397,8 +397,8 @@ const header_converter = {
     finish_time: 'Finish Time',
     start_pump_tube_hours: 'Time on PTubes Start',
     finish_pump_tube_hours: 'Time on PTubes Finish',
-    start_lab_temperature: 'Start Lab Temp',
-    finish_lab_temperature: 'Finish Lab Temp',
+    start_lab_temp: 'Start Lab Temp',
+    finish_lab_temp: 'Finish Lab Temp',
 
     rack_file_used: 'Rack Used',
     trace_checked: 'Trace Checked',
