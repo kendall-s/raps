@@ -176,7 +176,7 @@ const output_name_object = {
         pre_analysis_comments: 'pre_analysis_comments',
 
         air_valve: 'air_valve',
-        mq_container: 'mq_cont',
+        mq_cont: 'mq_cont',
         reagents_ran: 'reagents_ran',
         reagents_sufficient: 'reagents_sufficient',
         correct_rack_file: 'correct_rack_file',
@@ -191,7 +191,7 @@ const output_name_object = {
         nox_colour: 'nox_colour',
         phosphate_colour: 'phosphate_colour',
         phosphate_acid: 'phosphate_acid',
-        reagent_comment: 'reagent_comments',
+        reagent_comment: 'reagent_comment',
 
         rmns_1: 'rmns_1',
         rmns_1_used: 'rmns_1_used',

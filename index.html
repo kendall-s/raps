@@ -277,13 +277,13 @@
                 </div>
             </div>
             <div class="centered-div" style="padding-bottom: 0;">
-                <div class="flex_row" style="max-width: 750px;">
-                    <table class="table samples_table" id="samples_table">
+                <div class="flex_row" style="max-width: 1050px;">
+                    <table class="table samples_table" id="samples_table" style="width: 800px;">
                         <thead>
                             <tr>
-                                <th>Sample</th>
-                                <th>Condition</th>
-                                <th>Comment</th>
+                                <th><p class="bolded">Sample</p></th>
+                                <th><p class="bolded">Condition</p></th>
+                                <th><p class="bolded">Comment</p></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -307,6 +307,7 @@
                                 </td>
                                 <td>
                                     <select class="form" id="samples_condition_2">
+                                        <option></option>
                                         <option value="ambient">Ambient</option>
                                         <option value="fridge">Refridgerated</option>
                                         <option value="frozen">Frozen</option>
@@ -321,6 +322,7 @@
                                 </td>
                                 <td>
                                     <select class="form" id="samples_condition_3">
+                                        <option></option>
                                         <option value="ambient">Ambient</option>
                                         <option value="fridge">Refridgerated</option>
                                         <option value="frozen">Frozen</option>
@@ -356,7 +358,7 @@
             <div class="centered-div" style="padding-top: 5px; padding-bottom: 40px">
                 <div style="display: grid; grid-template-columns: 1fr; align-items: center;">
                     <div style="display: grid; grid-template-columns: 1fr 0.5fr;">
-                        <div style="display: grid; grid-template-columns: 0.1fr 1fr 0.1fr 1fr; align-items: center;">
+                        <div style="display: grid; grid-template-columns: 0.2fr 1fr 0.2fr 1fr; align-items: center; ">
                             <input class="form daily_checkall" type="checkbox" id='air_valve'>
                             <label for='air_valve'> Air Tubing Moved </label>
                             <input class="form daily_checkall" type="checkbox" id='mq_cont'>
@@ -611,7 +613,7 @@
                         <p style="text-align: center; font-weight: 550;">Run End</p>
                     </div>
                     <div style="display:flex; grid-column: 1 / span 2; justify-content: center; align-items: center;">
-                        <input class="form" type="checkbox" id="tray_protocol_checked">
+                        <input class="form" type="checkbox" id="tray_protocol_checked" style="margin-right: 5px;">
                         <label for="tray_protocol_checked">Tray Protocol Checked</label>
                     </div>
                     <div>
@@ -682,7 +684,7 @@
                 <div style="display: grid; grid-template-columns: 1fr; gap: 5px 5px; justify-content: center;">
                     <div style="display: flex; justify-content: center; align-items: center; grid-column: 1 /span 2;">
                         <input class="form" type="checkbox" id="trace_checked"
-                            title="No step ups in either the baseline or drift">
+                            title="No step ups in either the baseline or drift" style="margin-right: 5px;">
                         <label for="trace_checked" title="No step ups in either the baseline or drift">Trace
                             Checked</label>
                     </div>
@@ -1306,6 +1308,7 @@
                         </div>
                         <div>
                             <select class="form rmns_1_dropdown" id="ammonia_rmns_1">
+                                <option >NA</option>
                                 <option>
                                     <1%</option> <option>
                                         <2%</option> <option>
@@ -1322,6 +1325,7 @@
                         </div>
                         <div>
                             <select class="form rmns_2_dropdown" id="ammonia_rmns_2">
+                                <option >NA</option>
                                 <option></option>
                                 <option>
                                     <1%</option> <option>
@@ -1339,6 +1343,7 @@
                         </div>
                         <div>
                             <select class="form rmns_3_dropdown" id="ammonia_rmns_3">
+                                <option >NA</option>
                                 <option></option>
                                 <option>
                                     <1%</option> <option>

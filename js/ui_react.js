@@ -44,7 +44,7 @@ version_selector.onchange = (event) => {
     load_file(version = version_selected);
 }
 
-// Used for debugging 
+//Used for debugging 
 // document.addEventListener('keydown', function (e) {
 //     if (e.key == "r") {
 //         location.reload()
