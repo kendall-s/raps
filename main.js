@@ -164,12 +164,14 @@ ipcMain.on('cant_save_need_path', async (event, arg) => {
 
 
 
-// Helper functions
+// Main Helper functions
 
 // Sends the object containing all the csv files in a directory back to the rendered page
 function populate_list(csv_files) {
   win.webContents.send('populate_list', csv_files);
 }
+
+
 
 async function show_save_dialog() {
   let option = {
@@ -186,9 +188,12 @@ async function show_save_dialog() {
   })
 }
 
+
+
 function read_csv_file(file_to_open, version=0, column_check=0) {
   var csv_array = [];
 
+  // Creates file readstream - pipes it into the csv parser function
   fs.createReadStream(file_to_open)
     .pipe(csv())
     .on('data', (row) => {
