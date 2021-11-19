@@ -160,7 +160,13 @@ const csv_header = [
 
     { id: 'samples_3', title: 'Samples 3' },
     { id: 'samples_condition_3', title: 'Samples 3 Condition' },
-    { id: 'samples_comment_3', title: 'Samples 3 Comment' }
+    { id: 'samples_comment_3', title: 'Samples 3 Comment' },
+    
+    {id: 'nox_success', title: 'NOx Success'},
+    {id: 'phosphate_success', title: 'Phosphate Success'},
+    {id: 'silicate_success', title: 'Silicate Success'},
+    {id: 'ammonia_success', title: 'Ammonia Success'},
+    {id: 'nitrite_success', title: 'Nitrite Success'},
 ];
 
 // This object is iterated through to collect all the form data
@@ -324,6 +330,12 @@ const output_name_object = {
         samples_condition_3: 'samples_condition_3',
         samples_comment_3: 'samples_comment_3',
 
+        nox_success: 'nox_success',
+        phosphate_success: 'phosphate_success',
+        silicate_success: 'silicate_success',
+        ammonia_success: 'ammonia_success',
+        nitrite_success: 'nitrite_success',
+
     };
 
 // For when the data is loaded in, the header converter object is 
@@ -485,6 +497,12 @@ const header_converter = {
     samples_3: 'Samples 3',
     samples_condition_3: 'Samples 3 Condition',
     samples_comment_3: 'Samples 3 Comment',
+
+    nox_success: 'NOx Success',
+    phosphate_success: 'Phosphate Success',
+    silicate_success: 'Silicate Success',
+    ammonia_success: 'Ammonia Success',
+    nitrite_success: 'Nitrite Success',
 
 };
 
