@@ -111,7 +111,8 @@ function fetch_latest_release(current_app_version) {
     fetch(url)
     .then(response => response.json())
     .then(data => {
-        release_number = data['name'].replace(/v/g, '');
+        console.log(data)
+        release_number = data['tag_name'].replace(/v/g, '');
         release_number = release_number.split(".").join("");
         console.log(release_number)
         console.log(fmt_current_app_version)
